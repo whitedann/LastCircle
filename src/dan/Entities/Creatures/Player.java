@@ -102,6 +102,13 @@ public class Player extends Creature {
         return laserRect;
     }
 
+    public boolean finishedFiring(){
+        if(playerFire.getCurrentFrameIndex() == 7)
+            return true;
+        else
+            return false;
+    }
+
     private BufferedImage getCurrentAnimationFrame() {
         if(entityEntityCollision()) {
             playerDie.tick();

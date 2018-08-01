@@ -1,7 +1,5 @@
 package dan.Utils;
 
-import javafx.scene.shape.Circle;
-
 import java.awt.*;
 import java.awt.geom.Area;
 import java.io.BufferedReader;
@@ -39,5 +37,5 @@ public class Utils {
         Area areaA = new Area(A);
         areaA.intersect(new Area(B));
         return !areaA.isEmpty();
-    }
+   }
 }

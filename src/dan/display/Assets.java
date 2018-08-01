@@ -1,7 +1,6 @@
 package dan.display;
 
 import java.awt.image.BufferedImage;
-import java.nio.Buffer;
 
 public class Assets {
 
@@ -11,6 +10,7 @@ public class Assets {
     public static BufferedImage[] turretFire;
     public static BufferedImage[] blobMove;
     public static BufferedImage[] playerDie;
+    public static BufferedImage[] blobDie;
 
     public static void init(){
        start1 = ImageLoader.loadImage("/textures/start1.png");
@@ -58,6 +58,14 @@ public class Assets {
        playerDie[8] = playerDieSheet.crop(0,HEIGHT*2, WIDTH, HEIGHT);
        playerDie[9] = playerDieSheet.crop(WIDTH,HEIGHT*2, WIDTH, HEIGHT);
 
+       blobDie = new BufferedImage[7];
+       blobDie[0] = blobSheet.crop(0, 3*HEIGHT/2, WIDTH/2, HEIGHT/2);
+       blobDie[1] = blobSheet.crop(WIDTH/2, 3*HEIGHT/2, WIDTH/2, HEIGHT/2);
+       blobDie[2] = blobSheet.crop(WIDTH, 3*HEIGHT/2, WIDTH/2, HEIGHT/2);
+       blobDie[3] = blobSheet.crop(3*WIDTH/2, 3*HEIGHT/2, WIDTH/2, HEIGHT/2);
+       blobDie[4] = blobSheet.crop(2*WIDTH, 3*HEIGHT/2, WIDTH/2, HEIGHT/2);
+       blobDie[5] = blobSheet.crop(5*WIDTH/2, 3*HEIGHT/2, WIDTH/2, HEIGHT/2);
+       blobDie[6] = blobSheet.crop(3*WIDTH, 3*HEIGHT/2, WIDTH/2, HEIGHT/2);
 
        SpriteSheet brickSheet = new SpriteSheet(ImageLoader.loadImage("/textures/bricks.png"));
        brick = brickSheet.crop(0,0,WIDTH, HEIGHT);

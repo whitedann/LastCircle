@@ -15,14 +15,17 @@ import java.awt.image.BufferedImage;
 public class Blob extends Creature{
 
     private Entity target;
-    private Animation blobMove;
+    private boolean isAlive;
+    private Animation blobMove, blobDie;
 
     public Blob(Handler handler, float x, float y, float angle) {
         super(handler, x, y, angle,32,32);
         setTarget(handler.getPlayer());
         this.setSpeed(1.0f);
         this.angle = 0;
+        isAlive = true;
         blobMove = new Animation(50, Assets.blobMove);
+        blobDie = new Animation(50, Assets.blobDie);
     }
 
     public void setTarget(Entity target){
@@ -31,9 +34,8 @@ public class Blob extends Creature{
 
     @Override
     public void tick() {
-        if(hitByPlayer()) {
-            System.out.println("hit!");
-        }
+        if(hitByPlayer())
+            isAlive = false;
         getDirection();
         move();
         blobMove.tick();
@@ -63,14 +65,22 @@ public class Blob extends Creature{
     }
 
     public boolean hitByPlayer(){
-        Ellipse2D hitbox = new Ellipse2D.Double(x,y,32,32);
-        if(Utils.testIntersection(handler.getPlayer().getLaserRect(),hitbox))
-            return true;
-        else
-            return false;
+        if(handler.getPlayer().finishedFiring()) {
+            Ellipse2D hitbox = new Ellipse2D.Double(x - handler.getCamera().getxOffset(), y - handler.getCamera().getyOffset(), 32, 32);
+            if (Utils.testIntersection(hitbox, handler.getPlayer().getLaserRect()))
+                return true;
+            else
+                return false;
+        }
+        return false;
     }
 
     public BufferedImage getCurrentAnimationFrame(){
-        return blobMove.getCurrentFrame();
+        if(!isAlive) {
+            blobDie.tick();
+            return blobDie.getCurrentFrame();
+        }
+        else
+            return blobMove.getCurrentFrame();
     }
 }
