@@ -14,18 +14,19 @@ import java.awt.image.BufferStrategy;
 
 
 public class Game implements Runnable{
-
     //Resolution: 1024x720
     private static final int WIDTH = 1024, HEIGHT = WIDTH / 12 * 8;
     private Thread thread;
     private boolean running = false;
+    public boolean gamePaused = false;
+    public int gamePausedint = 0;
 
     //Window
     private Window MainWindow;
 
     //States
-    private State gameState;
-    private State menuState;
+    public State gameState;
+    public State menuState;
 
     //Graphics
     private BufferStrategy bs;
@@ -40,7 +41,6 @@ public class Game implements Runnable{
     //Handler
     private Handler handler;
 
-
     public Game(){
     }
 
@@ -51,7 +51,6 @@ public class Game implements Runnable{
         Assets.init();
         this.camera = new Camera(this,0,0);
         this.handler = new Handler(this);
-        this.gameState = new GameState(handler);
         this.menuState = new MenuState(handler);
         StateManager.setState(this.menuState);
     }
@@ -81,8 +80,9 @@ public class Game implements Runnable{
         return this.camera;
     }
 
-    public void switchToGameState(){
-        StateManager.setState(gameState);
+    public void resetGame(){
+        this.handler = new Handler(this);
+        this.gameState = new GameState(handler);
     }
 
     public synchronized void stop(){
@@ -96,6 +96,7 @@ public class Game implements Runnable{
         }
     }
 
+
     private void render() {
         this.bs = this.MainWindow.getCanvas().getBufferStrategy();
         if (this.bs == null) {
@@ -103,11 +104,10 @@ public class Game implements Runnable{
             return;
         }
         this.g = (Graphics2D) this.bs.getDrawGraphics();
-        //Clears the Screen
+        //  Clears the Screen
         g.clearRect(0, 0, WIDTH, HEIGHT);
-        //Draw here
 
-        //Render background for all states
+        //  Render background for all states
         for (int i = 0; i < 17; i++) {
             for (int j = 0; j < 12; j++) {
                 if (i == 0 || j == 0 || i == 7 || j == 7) {
@@ -116,17 +116,16 @@ public class Game implements Runnable{
             }
         }
 
-        //Render state
+        //  Render the current state
         if(StateManager.getState() != null){
             StateManager.getState().render(g);
         }
-        //
+
         bs.show();
         g.dispose();
     }
 
     private void tick(){
-        this.keyManager.tick();
         if(StateManager.getState() != null){
             StateManager.getState().tick();
         }
@@ -149,9 +148,23 @@ public class Game implements Runnable{
             timer += now - lastTime;
             lastTime = now;
 
+
             if(delta >= 1) {
-                tick();
-                render();
+
+                //  The keyManager must tick outside main tick method so we can listen for
+                //  pause requests even when the game is paused/not ticking.
+                this.keyManager.tick();
+
+                //  Checks for player pressing pause
+                if(keyManager.playerRequestsPause()) {
+                    togglePause();
+                    this.keyManager.resetPauseCheck();
+                }
+
+                if(!gamePaused) {
+                    tick();
+                    render();
+                }
                 ticks++;
                 delta--;
             }
@@ -162,6 +175,17 @@ public class Game implements Runnable{
             }
         }
         stop();
+    }
+
+    public void togglePause() {
+        switch(gamePausedint){
+            case 1: gamePaused = false;
+                    gamePausedint = 0;
+                    break;
+            case 0: gamePaused = true;
+                    gamePausedint = 1;
+                    break;
+        }
     }
 
 }

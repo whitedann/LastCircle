@@ -29,10 +29,16 @@ public class WorldTracker {
 
     //The cell at index (j, k) is populated with the entities that overlap it
     public void sortEntitiesIntoCells(int i, int j){
-        for (Entity e : handler.getEntities()) {
+        for (Entity e : handler.getBlobs()) {
             if (entityIntersectsCell(i, j, e))
                 cellGrid[i][j].add(e);
         }
+    }
+
+    public void clearDeadEntitiesFromCells(){
+        for(ArrayList<Entity> list : cellGrid[0])
+            for(Entity e : list)
+                if(entityIntersectsCell(0))
     }
 
     public ArrayList<Entity> getEntitiesInThisCell(int i, int j) {

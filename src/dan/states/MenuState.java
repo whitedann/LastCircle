@@ -1,7 +1,6 @@
 package dan.states;
 
 import dan.display.Assets;
-import dan.game.Game;
 import dan.game.Handler;
 
 import java.awt.*;
@@ -24,8 +23,11 @@ public class MenuState extends State{
         if(handler.getKeyManager().confirm) {
             fadingToGame = true;
         }
-        if(doneFading)
-            handler.getGame().switchToGameState();
+        if(doneFading) {
+            handler.getGame().resetGame();
+            StateManager.setState(handler.getGame().gameState);
+            resetMenu();
+        }
     }
 
     @Override
@@ -33,10 +35,16 @@ public class MenuState extends State{
         g.drawImage(Assets.start1, 384, 350, null);
         g.fillRect(256,200,512,100);
         if(fadingToGame)
-            fadeSceenToWhite(g);
+            fadeScreenToWhite(g);
     }
 
-    public void fadeSceenToWhite(Graphics g){
+    public void resetMenu(){
+        fadingToGame = false;
+        doneFading = false;
+        alpha = 0.0f;
+    }
+
+    public void fadeScreenToWhite(Graphics g){
         Graphics2D g2d = (Graphics2D) g;
         g.setColor(Color.WHITE);
         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));

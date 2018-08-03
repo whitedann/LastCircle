@@ -38,4 +38,5 @@ public class Utils {
         areaA.intersect(new Area(B));
         return !areaA.isEmpty();
    }
+
 }

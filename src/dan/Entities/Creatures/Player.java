@@ -109,8 +109,15 @@ public class Player extends Creature {
             return false;
     }
 
+    public boolean finishedDying(){
+        if(playerDie.getCurrentFrameIndex() == 9)
+            return true;
+        else
+            return false;
+    }
+
     private BufferedImage getCurrentAnimationFrame() {
-        if(entityEntityCollision()) {
+        if(playerKilled) {
             playerDie.tick();
             return playerDie.getCurrentFrame();
         }

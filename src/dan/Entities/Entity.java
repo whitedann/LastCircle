@@ -67,6 +67,20 @@ public abstract class Entity {
         this.bounds.setCenterY(y);
     }
 
+    //Change to use window size, not just random-looking integrers
+    public boolean isWithinMaxRenderDistance(){
+        if(this.getX() > handler.getPlayer().getX() + 548)
+            return false;
+        else if(this.getX() < handler.getPlayer().getX() - 548)
+            return false;
+        else if(this.getY() > handler.getPlayer().getY() + 340)
+            return false;
+        else if(this.getY() < handler.getPlayer().getY() - 340)
+            return false;
+        else
+            return true;
+    }
+
     public int getCellIndexX(){
         return (int) (this.getX() / Tile.TILE_WIDTH);
     }
