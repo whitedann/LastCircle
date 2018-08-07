@@ -21,7 +21,6 @@ public class Blob extends Creature{
     public Blob(Handler handler, float x, float y, float angle) {
         super(handler, x, y, angle,32,32);
         setTarget(handler.getPlayer());
-        this.setSpeed(1.0f);
         this.angle = 0;
         isAlive = true;
         blobMove = new Animation(50, Assets.blobMove);
@@ -39,6 +38,7 @@ public class Blob extends Creature{
         getDirection();
         move();
         blobMove.tick();
+        angle++;
     }
 
     @Override
@@ -64,15 +64,11 @@ public class Blob extends Creature{
             yMove = -1.0f;
     }
 
-    public boolean hitByPlayer(){
-        if(handler.getPlayer().finishedFiring()) {
-            Ellipse2D hitbox = new Ellipse2D.Double(x - handler.getCamera().getxOffset(), y - handler.getCamera().getyOffset(), 32, 32);
-            if (Utils.testIntersection(hitbox, handler.getPlayer().getLaserRect()))
-                return true;
-            else
-                return false;
-        }
-        return false;
+    public boolean finishedDying(){
+        if(blobDie.getCurrentFrameIndex() == 6)
+            return true;
+        else
+            return false;
     }
 
     public BufferedImage getCurrentAnimationFrame(){

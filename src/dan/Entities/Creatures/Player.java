@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 
 public class Player extends Creature {
 
-    private Animation playerFire, playerDie;
+    public Animation playerFire, playerDie, animateRocket;
     private boolean playerFiring;
     public boolean playerKilled;
     private Shape laserRect;
@@ -24,8 +24,9 @@ public class Player extends Creature {
         this.setRotationalSpeed(0.05f);
 
         //Player animations
-        playerFire = new Animation(20, Assets.turretFire);
-        playerDie = new Animation(100, Assets.playerDie);
+        playerFire = new Animation(50, Assets.turretFire);
+        playerDie = new Animation(50, Assets.playerDie);
+        animateRocket = new Animation(50, Assets.animateRocket);
 
         //Set up dummy laser shape
         laserRect = new Rectangle(0,0,1,1);
@@ -81,10 +82,11 @@ public class Player extends Creature {
 
         Graphics2D gd2 = (Graphics2D) g;
         gd2.drawImage(getCurrentAnimationFrame(), at, null);
-        if(playerFire.getCurrentFrameIndex() == 7 || playerFire.getCurrentFrameIndex() == 6) {
-            gd2.setColor(Color.BLUE);
+        if(finishedFiring()) {
+            gd2.setColor(Color.YELLOW);
             gd2.fill(laserRect);
         }
+        drawRocketAnimation(gd2);
     }
 
     public Shape placeBeamProjectile(){
@@ -92,7 +94,7 @@ public class Player extends Creature {
         //to the player's orientation.
         Double anchorX = Double.valueOf(x - handler.getCamera().getxOffset());
         Double anchorY = Double.valueOf(y - handler.getCamera().getyOffset() - 1);
-        Rectangle2D rect = new Rectangle2D.Double(anchorX + 32,  anchorY - 3, handler.getPlayer().getDistanceToNearestSolidTile()-32, 5);
+        Rectangle2D rect = new Rectangle2D.Double(anchorX + 32,  anchorY - 3, handler.getPlayer().getDistanceToNearestEntity(), 1);
         AffineTransform at = AffineTransform.getRotateInstance(angle,anchorX, anchorY);
         Shape rotatedRect = at.createTransformedShape(rect);
         return rotatedRect;
@@ -103,23 +105,70 @@ public class Player extends Creature {
     }
 
     public boolean finishedFiring(){
-        if(playerFire.getCurrentFrameIndex() == 7)
+        if(playerFire.getCurrentFrameIndex() == 7 )
             return true;
         else
             return false;
     }
 
     public boolean finishedDying(){
-        if(playerDie.getCurrentFrameIndex() == 9)
+        if(playerDie.getCurrentFrameIndex() == 10)
             return true;
         else
             return false;
     }
 
+    public void drawRocketAnimation(Graphics2D g){
+        //No movement, no animation
+        if(yMove == 0 && xMove == 0)
+            return;
+        animateRocket.tick();
+        AffineTransform at = new AffineTransform();
+
+        //  Transformations occur in reverse order.
+        //  3. Moves draw location 'at' to player's location, accounting for camera offset
+        at.translate((int) (x - handler.getCamera().getxOffset()), (int) (y - handler.getCamera().getyOffset()));
+
+        //  2. Rotates the image according to movment direction
+        if(yMove < 0) {
+            if(xMove < 0)
+                at.rotate(7*Math.PI/4);
+            else if(xMove > 0)
+                at.rotate(Math.PI/4);
+            else
+                at.rotate(0);
+        }
+        else if(yMove > 0){
+            if(xMove < 0)
+                at.rotate(5*Math.PI/4);
+            else if (xMove > 0)
+                at.rotate(3*Math.PI/4);
+            else
+                at.rotate(Math.PI);
+        }
+        else if(yMove == 0){
+            if(xMove < 0)
+                at.rotate(3*Math.PI/2);
+            if(xMove > 0)
+                at.rotate(Math.PI/2);
+        }
+
+
+        //  1. Sets the pivot point to the center of the image (the rocket animation is 96x96 pixels)
+        at.translate(-48,-48);
+
+        //  Finally, draw the image.
+        g.drawImage(animateRocket.getCurrentFrame(), at, null);
+    }
+
     private BufferedImage getCurrentAnimationFrame() {
         if(playerKilled) {
-            playerDie.tick();
-            return playerDie.getCurrentFrame();
+            if(playerDie.getCurrentFrameIndex() == 10)
+                return Assets.playerDie[10];
+            else {
+                playerDie.tick();
+                return playerDie.getCurrentFrame();
+            }
         }
         if (playerFiring) {
             playerFire.tick();

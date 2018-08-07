@@ -12,12 +12,8 @@ public class WorldTracker {
     private Handler handler;
 
     public WorldTracker(Handler handler){
-        cellGrid = new ArrayList[handler.getWorld().getWidth()][handler.getWorld().getHeight()];
-        for(int i = 0; i < cellGrid.length; i++){
-            for(int j = 0; j < cellGrid[j].length; j++)
-                cellGrid[i][j] = new ArrayList<Entity>();
-        }
         this.handler = handler;
+        reinitializeCellGrid();
     }
 
     public void tick(){
@@ -29,22 +25,30 @@ public class WorldTracker {
 
     //The cell at index (j, k) is populated with the entities that overlap it
     public void sortEntitiesIntoCells(int i, int j){
-        for (Entity e : handler.getBlobs()) {
-            if (entityIntersectsCell(i, j, e))
+        for (Entity e : handler.getCreatures()) {
+            if (entityIntersectsCell(i, j, e) && e != handler.getPlayer())
                 cellGrid[i][j].add(e);
         }
     }
 
-    public void clearDeadEntitiesFromCells(){
-        for(ArrayList<Entity> list : cellGrid[0])
-            for(Entity e : list)
-                if(entityIntersectsCell(0))
+    public void reinitializeCellGrid(){
+         cellGrid = new ArrayList[handler.getWorld().getWidth()][handler.getWorld().getHeight()];
+         for(int i = 0; i < cellGrid.length; i++){
+             for(int j = 0; j < cellGrid[j].length; j++)
+                 cellGrid[i][j] = new ArrayList<Entity>();
+         }
     }
 
     public ArrayList<Entity> getEntitiesInThisCell(int i, int j) {
         return cellGrid[i][j];
     }
 
+    public boolean thisCellContainsEntiies(int i, int j){
+        if (cellGrid[i][j].isEmpty())
+            return false;
+        else
+            return true;
+    }
     public boolean entityIntersectsCell(int i, int j, Entity e){
         //takes coordinates (in pixels) and returns true if bounds of circular entity
         //overlaps the tile containing given coordinates.

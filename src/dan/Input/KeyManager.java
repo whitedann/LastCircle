@@ -58,4 +58,8 @@ public class KeyManager implements KeyListener {
             gamePausedReleased = true;
     }
 
+    public void keyPressedAndReleased(KeyEvent e){
+
+    }
+
 }

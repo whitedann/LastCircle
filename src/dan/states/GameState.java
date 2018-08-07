@@ -1,12 +1,16 @@
 package dan.states;
 
 import dan.Entities.Creatures.Blob;
+import dan.Entities.Creatures.Contagion;
+import dan.Entities.Creatures.Creature;
 import dan.Entities.Creatures.Player;
 import dan.Entities.Entity;
+import dan.Tile.Tile;
 import dan.Worlds.World;
 import dan.Worlds.WorldTracker;
 import dan.game.Handler;
-import java.awt.Graphics;
+
+import java.awt.*;
 import java.util.Iterator;
 
 public class GameState extends State{
@@ -14,8 +18,9 @@ public class GameState extends State{
     private Player player;
     private World world;
     private WorldTracker worldTracker;
-    private Iterator<Blob> iter;
+    private Iterator<Creature> iter;
     private int timer;
+    private int score;
 
     public GameState(Handler handler){
         super(handler);
@@ -26,53 +31,73 @@ public class GameState extends State{
         this.worldTracker = new WorldTracker(handler);
         this.handler.setWorldTracker(worldTracker);
         this.timer = 0;
+        this.score = 0;
         player.setSpeed(5.0f);
+        handler.addCreature(new Contagion(handler, handler.getPlayer().getX() + 100, handler.getPlayer().getY(), 0));
     }
 
     @Override
     public void tick() {
+        worldTracker.reinitializeCellGrid();
+        worldTracker.tick();
+        for(Creature e : this.handler.getCreatures())
+            e.tick();
         player.tick();
         world.tick();
-        worldTracker.tick();
-        for (Blob e : this.handler.getBlobs()) {
-            e.tick();
-        }
         timer += 1;
-        checkForGameOver();
         removeDeadEnemies();
-        spawnEnemies();
-        System.out.println(handler.getBlobs().size());
+        //spawnEnemies();
+        checkForEndGame();
     }
 
     @Override
     public void render(Graphics g) {
         world.render(g);
         player.render(g);
-        for(Entity e : this.handler.getBlobs())
+        for(Entity e : this.handler.getCreatures())
             if(e.isWithinMaxRenderDistance())
                 e.render(g);
+        if(player.finishedDying())
+            showDeathScreen(g);
     }
 
-    public void checkForGameOver(){
-        if(player.finishedDying())
-            StateManager.setState(handler.getGame().menuState);
+    public void checkForEndGame(){
+        if(player.playerKilled){
+            if(handler.getKeyManager().confirm)
+               StateManager.setState(handler.getGame().menuState);
+        }
+    }
+
+    public void showDeathScreen(Graphics g){
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(Color.BLACK);
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.fillRect(0,0, 1024, 720);
     }
 
     public void removeDeadEnemies(){
-        iter = handler.getBlobs().iterator();
+        iter = handler.getCreatures().iterator();
         while(iter.hasNext()){
-            Blob blob = iter.next();
-            if(blob.hitByPlayer())
+            Creature creature = iter.next();
+            if(creature.finishedDying()) {
                 iter.remove();
+                score++;
+            }
         }
     }
 
     public void spawnEnemies() {
         if (timer == 100){
-            if(this.handler.getBlobs().size() < 30) {
-                this.handler.addEntity(new Blob(handler, 100, 100, 0));
-                this.handler.addEntity(new Blob(handler, 600, 100, 0));
-                this.handler.addEntity(new Blob(handler, 100, 400, 0));
+            int x, y;
+            if(this.handler.getCreatures().size() < 1000) {
+                for(int i = 1; i < 20; i++) {
+                    x = i*64;
+                    y = 100;
+                    if(!handler.getWorldTracker().thisCellContainsEntiies(x / Tile.TILE_WIDTH + 1, y / Tile.TILE_HEIGHT + 1) &&
+                            !handler.getWorldTracker().thisCellContainsEntiies( x / Tile.TILE_WIDTH, y / Tile.TILE_HEIGHT + 1))
+                        handler.addCreature(new Contagion(handler, handler.getWorld().getTileCenterX(x) , handler.getWorld().getTileCenterY(y) , 0));
+                }
             }
             timer = 0;
         }

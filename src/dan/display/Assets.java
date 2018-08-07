@@ -1,6 +1,7 @@
 package dan.display;
 
 import java.awt.image.BufferedImage;
+import java.nio.Buffer;
 
 public class Assets {
 
@@ -11,6 +12,8 @@ public class Assets {
     public static BufferedImage[] blobMove;
     public static BufferedImage[] playerDie;
     public static BufferedImage[] blobDie;
+    public static BufferedImage[] animateRocket;
+    public static BufferedImage[] contagionMove;
 
     public static void init(){
        start1 = ImageLoader.loadImage("/textures/start1.png");
@@ -46,7 +49,7 @@ public class Assets {
 
        SpriteSheet playerDieSheet = new SpriteSheet(ImageLoader.loadImage("/textures/turretExplosion.png"));
 
-       playerDie = new BufferedImage[10];
+       playerDie = new BufferedImage[11];
        playerDie[0] = playerDieSheet.crop(0, 0, WIDTH, HEIGHT);
        playerDie[1] = playerDieSheet.crop(WIDTH, 0, WIDTH, HEIGHT);
        playerDie[2] = playerDieSheet.crop(WIDTH *2, 0, WIDTH, HEIGHT);
@@ -57,6 +60,7 @@ public class Assets {
        playerDie[7] = playerDieSheet.crop(3*WIDTH, WIDTH, WIDTH, HEIGHT);
        playerDie[8] = playerDieSheet.crop(0,HEIGHT*2, WIDTH, HEIGHT);
        playerDie[9] = playerDieSheet.crop(WIDTH,HEIGHT*2, WIDTH, HEIGHT);
+       playerDie[10] = playerDieSheet.crop(2*WIDTH, 2*HEIGHT, WIDTH, HEIGHT);
 
        blobDie = new BufferedImage[7];
        blobDie[0] = blobSheet.crop(0, 3*HEIGHT/2, WIDTH/2, HEIGHT/2);
@@ -66,6 +70,28 @@ public class Assets {
        blobDie[4] = blobSheet.crop(2*WIDTH, 3*HEIGHT/2, WIDTH/2, HEIGHT/2);
        blobDie[5] = blobSheet.crop(5*WIDTH/2, 3*HEIGHT/2, WIDTH/2, HEIGHT/2);
        blobDie[6] = blobSheet.crop(3*WIDTH, 3*HEIGHT/2, WIDTH/2, HEIGHT/2);
+
+       SpriteSheet rocketSheet = new SpriteSheet(ImageLoader.loadImage("/textures/rocketAnimations.png"));
+       animateRocket = new BufferedImage[4];
+       animateRocket[0] = rocketSheet.crop(0,0,96,96);
+       animateRocket[1] = rocketSheet.crop(96,0,96,96);
+       animateRocket[2] = rocketSheet.crop(2*96,0,96,96);
+       animateRocket[3] = rocketSheet.crop(3*96,0,96,96);
+
+       SpriteSheet contagionSheet = new SpriteSheet(ImageLoader.loadImage("/textures/contagion.png"));
+       contagionMove = new BufferedImage[12];
+       contagionMove[0] = contagionSheet.crop(0,0,8,8);
+       contagionMove[1] = contagionSheet.crop(8,0,8,8);
+       contagionMove[2] = contagionSheet.crop(16,0,8,8);
+       contagionMove[3] = contagionSheet.crop(24,0,8,8);
+       contagionMove[4] = contagionSheet.crop(0,8,8,8);
+       contagionMove[5] = contagionSheet.crop(8,8,8,8);
+       contagionMove[6] = contagionSheet.crop(16,8,8,8);
+       contagionMove[7] = contagionSheet.crop(24,8,8,8);
+       contagionMove[8] = contagionSheet.crop(0,16,8,8);
+       contagionMove[9] = contagionSheet.crop(8,16,8,8);
+       contagionMove[10] = contagionSheet.crop(16,16,8,8);
+       contagionMove[11] = contagionSheet.crop(24,16,8,8);
 
        SpriteSheet brickSheet = new SpriteSheet(ImageLoader.loadImage("/textures/bricks.png"));
        brick = brickSheet.crop(0,0,WIDTH, HEIGHT);

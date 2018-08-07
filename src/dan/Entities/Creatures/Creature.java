@@ -2,9 +2,11 @@ package dan.Entities.Creatures;
 
 import dan.Entities.Entity;
 import dan.Tile.Tile;
+import dan.Utils.Utils;
 import dan.game.Handler;
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 
 public abstract class Creature extends Entity {
 
@@ -176,8 +178,8 @@ public abstract class Creature extends Entity {
      }
 
      public int getDistanceToNearestSolidTile(){
-        //Utility used to draw line between position of creature (x, y)
-         //to edge of nearest solid Tile.
+         // Utility used to draw line between position of creature (x, y)
+         // to edge of nearest solid Tile.
         int r = 0;
         int i = (int) x;
         int j = (int) y;
@@ -189,5 +191,41 @@ public abstract class Creature extends Entity {
         }
         return r;
      }
+
+     public int getDistanceToNearestEntity(){
+         // Utility to draw line between position of creature (x, y)
+         // to the edge of nearest Entity
+         int r = 1;
+         int i, j;
+         boolean hitAnEntity = false;
+         int maxDistance = getDistanceToNearestSolidTile();
+         double normalizedAngle = angle % (2*Math.PI);
+         while(!hitAnEntity){
+             if(r > maxDistance)
+                 return r - 32;
+             r++;
+             i = (int) (r * Math.cos(normalizedAngle) + x);
+             j = (int) (r * Math.sin(normalizedAngle) + y);
+             for (Entity e : this.handler.getCreatures()){
+                 if(e.entityContainsPoint(i,j))
+                     hitAnEntity = true;
+             }
+         }
+         return r - 16;
+     }
+
+     public abstract boolean finishedDying();
+
+     public boolean hitByPlayer(){
+        if(handler.getPlayer().finishedFiring()) {
+            Ellipse2D hitbox = new Ellipse2D.Double(x - handler.getCamera().getxOffset() - this.bounds.getRadius(),
+                    y - handler.getCamera().getyOffset() - this.bounds.getRadius() , bounds.getRadius(),bounds.getRadius());
+            if (Utils.testIntersection(hitbox, handler.getPlayer().getLaserRect()))
+                return true;
+            else
+                return false;
+        }
+        return false;
+    }
 
 }

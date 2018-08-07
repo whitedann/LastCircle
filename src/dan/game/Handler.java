@@ -1,6 +1,7 @@
 package dan.game;
 
 import dan.Entities.Creatures.Blob;
+import dan.Entities.Creatures.Creature;
 import dan.Entities.Creatures.Player;
 import dan.Entities.Entity;
 import dan.Input.KeyManager;
@@ -15,12 +16,12 @@ public class Handler {
     private Game game;
     private World world;
     private Player player;
-    private ArrayList<Blob> blobs;
+    private ArrayList<Creature> creatures;
     private WorldTracker worldTracker;
 
     public Handler(Game game){
         this.game = game;
-        blobs = new ArrayList<Blob>();
+        creatures = new ArrayList<Creature>();
     }
 
     public int getWidth(){
@@ -59,12 +60,12 @@ public class Handler {
         return worldTracker;
     }
 
-    public ArrayList<Blob> getBlobs(){
-        return blobs;
+    public ArrayList<Creature> getCreatures(){
+        return creatures;
     }
 
-    public void addEntity(Blob blob){
-        this.blobs.add(blob);
+    public void addCreature(Creature creature){
+        this.creatures.add(creature);
     }
 
     public void setGame(Game game) {

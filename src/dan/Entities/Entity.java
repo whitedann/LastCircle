@@ -3,9 +3,7 @@ package dan.Entities;
 import dan.Tile.Tile;
 import dan.game.Handler;
 import javafx.scene.shape.Circle;
-
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 
 public abstract class Entity {
 
@@ -44,10 +42,11 @@ public abstract class Entity {
         return false;
     }
 
-    public boolean isAlive(){
-        return this.isAlive;
+    public boolean entityContainsPoint(int i, int j){
+        if(bounds.contains(i, j))
+            return true;
+        return false;
     }
-
 
     public Circle getBounds(){
         return this.bounds;

@@ -46,7 +46,7 @@ public class MenuState extends State{
 
     public void fadeScreenToWhite(Graphics g){
         Graphics2D g2d = (Graphics2D) g;
-        g.setColor(Color.WHITE);
+        g2d.setColor(Color.WHITE);
         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.fillRect(0,0, 1024, 720);
