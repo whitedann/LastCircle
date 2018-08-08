@@ -24,7 +24,7 @@ public class Player extends Creature {
         this.setRotationalSpeed(0.05f);
 
         //Player animations
-        playerFire = new Animation(50, Assets.turretFire);
+        playerFire = new Animation(10, Assets.turretFire);
         playerDie = new Animation(50, Assets.playerDie);
         animateRocket = new Animation(50, Assets.animateRocket);
 
@@ -94,7 +94,7 @@ public class Player extends Creature {
         //to the player's orientation.
         Double anchorX = Double.valueOf(x - handler.getCamera().getxOffset());
         Double anchorY = Double.valueOf(y - handler.getCamera().getyOffset() - 1);
-        Rectangle2D rect = new Rectangle2D.Double(anchorX + 32,  anchorY - 3, handler.getPlayer().getDistanceToNearestEntity(), 1);
+        Rectangle2D rect = new Rectangle2D.Double(anchorX + 32,  anchorY - 3, handler.getPlayer().getDistanceToNearestEntity(), 5);
         AffineTransform at = AffineTransform.getRotateInstance(angle,anchorX, anchorY);
         Shape rotatedRect = at.createTransformedShape(rect);
         return rotatedRect;
@@ -105,7 +105,7 @@ public class Player extends Creature {
     }
 
     public boolean finishedFiring(){
-        if(playerFire.getCurrentFrameIndex() == 7 )
+        if(playerFire.getCurrentFrameIndex() == 7 || playerFire.getCurrentFrameIndex() == 6)
             return true;
         else
             return false;

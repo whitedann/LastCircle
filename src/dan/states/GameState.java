@@ -20,7 +20,6 @@ public class GameState extends State{
     private WorldTracker worldTracker;
     private Iterator<Creature> iter;
     private int timer;
-    private int score;
 
     public GameState(Handler handler){
         super(handler);
@@ -31,22 +30,28 @@ public class GameState extends State{
         this.worldTracker = new WorldTracker(handler);
         this.handler.setWorldTracker(worldTracker);
         this.timer = 0;
-        this.score = 0;
+        Contagion cont1 = new Contagion(handler, 0, 0,  (float) (Math.PI));
+        Contagion cont2 = new Contagion(handler, 0, 0, 0);
+        Contagion cont3 = new Contagion(handler, 0, 0, (float) (Math.PI/2));
+        Contagion cont4 = new Contagion(handler, 0, 0, (float) Math.PI/3);
+        handler.addCreature(cont4);
+        handler.addCreature(cont2);
+        handler.addCreature(cont3);
+        handler.addCreature(cont1);
         player.setSpeed(5.0f);
-        handler.addCreature(new Contagion(handler, handler.getPlayer().getX() + 100, handler.getPlayer().getY(), 0));
     }
 
     @Override
     public void tick() {
         worldTracker.reinitializeCellGrid();
         worldTracker.tick();
+        player.tick();
         for(Creature e : this.handler.getCreatures())
             e.tick();
-        player.tick();
         world.tick();
         timer += 1;
         removeDeadEnemies();
-        //spawnEnemies();
+        spawnEnemies();
         checkForEndGame();
     }
 
@@ -82,7 +87,6 @@ public class GameState extends State{
             Creature creature = iter.next();
             if(creature.finishedDying()) {
                 iter.remove();
-                score++;
             }
         }
     }
@@ -96,7 +100,7 @@ public class GameState extends State{
                     y = 100;
                     if(!handler.getWorldTracker().thisCellContainsEntiies(x / Tile.TILE_WIDTH + 1, y / Tile.TILE_HEIGHT + 1) &&
                             !handler.getWorldTracker().thisCellContainsEntiies( x / Tile.TILE_WIDTH, y / Tile.TILE_HEIGHT + 1))
-                        handler.addCreature(new Contagion(handler, handler.getWorld().getTileCenterX(x) , handler.getWorld().getTileCenterY(y) , 0));
+                        handler.addCreature(new Blob(handler, handler.getWorld().getTileCenterX(x) , handler.getWorld().getTileCenterY(y) , 0));
                 }
             }
             timer = 0;

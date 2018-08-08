@@ -38,7 +38,6 @@ public class Blob extends Creature{
         getDirection();
         move();
         blobMove.tick();
-        angle++;
     }
 
     @Override

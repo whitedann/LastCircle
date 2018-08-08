@@ -1,6 +1,5 @@
 package dan.Entities.Creatures;
 
-import dan.Entities.Entity;
 import dan.display.Animation;
 import dan.display.Assets;
 import dan.game.Handler;
@@ -16,15 +15,16 @@ public class Contagion extends Creature{
     private Creature master;
 
     public Contagion(Handler handler, float x, float y, float angle){
-        super(handler, x, y, angle,9,9);
-        this.angle = 0;
+        super(handler, x, y, angle,8,8);
         this.master = handler.getPlayer();
         contagionMove = new Animation(100, Assets.contagionMove);
+        this.x = (float) (master.getBounds().getCenterX() + 52*Math.cos(angle));
+        this.y = (float) (master.getBounds().getCenterY() - 52*Math.sin(angle));
     }
     @Override
     public void tick() {
         contagionMove.tick();
-        circleAroundPlayer();
+        circleAroundMaster();
         move();
         timer++;
     }
@@ -38,14 +38,12 @@ public class Contagion extends Creature{
         g2.drawImage(getCurrentAnimationFrame(), at, null);
     }
 
-    public void circleAroundPlayer(){
-        xMove = 0;
-        yMove = 0;
-        double orbitSpeed = Math.PI / 60 ;
-        double radian = 10 * orbitSpeed * timer;
-        xMove = (int) (10*Math.sin(radian));
-        yMove = (int) (10*Math.cos(radian));
-
+    public void circleAroundMaster(){
+        double orbitSpeed = Math.PI / 200;
+        double radian = orbitSpeed * timer - Math.PI/2 -angle;
+        double orbitRadius = master.getBounds().getRadius() + 20;
+        xMove = (float) (master.getxMove() + -1*orbitRadius*orbitSpeed*Math.cos(radian));
+        yMove = (float) (master.getyMove() + -1*orbitRadius*orbitSpeed*Math.sin(radian));
     }
 
     public boolean finishedDying(){
