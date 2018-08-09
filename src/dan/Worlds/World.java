@@ -1,5 +1,6 @@
 package dan.Worlds;
 
+import dan.Entities.Creatures.Blob;
 import dan.Tile.Tile;
 import dan.Utils.Utils;
 import dan.game.Handler;
@@ -11,14 +12,19 @@ public class World {
     private Handler handler;
     private int width, height, spawnX, spawnY;
     private int[][] tiles;
+    private int[][] spawns;
+    private int timer = 0;
+    private int currentWave = 2;
 
-    public World(Handler handler, String path){
+    public World(Handler handler, String path, String spawnPatternFile){
         this.handler = handler;
         loadWorld(path);
+        loadSpawnPattern(spawnPatternFile);
     }
 
     public void tick(){
-
+        timer++;
+        spawnEnemies();
     }
 
     public void render(Graphics g){
@@ -34,6 +40,23 @@ public class World {
                        (int)(y * Tile.TILE_HEIGHT - handler.getCamera().getyOffset()));
            }
        }
+    }
+
+    public void spawnEnemies(){
+        if(timer == 120) {
+            if(currentWave > 4)
+                currentWave = 2;
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    if (spawns[x][y] == currentWave) {
+                        if(!handler.getWorldTracker().thisCellContainsEntiies(x,y))
+                            handler.addCreature(new Blob(handler,getTileCenterXFromIndex(x),getTileCenterYFromIndex(y), 0));
+                    }
+                }
+            }
+            currentWave++;
+            timer = 0;
+        }
     }
 
     public Tile getTile(int x, int y){
@@ -56,13 +79,13 @@ public class World {
 
     public static int getTileCenterXFromIndex(int i){
         int tileCenterX;
-        tileCenterX = i * Tile.TILE_WIDTH * (3 / 2);
+        tileCenterX = i * Tile.TILE_WIDTH + Tile.TILE_WIDTH / 2;
         return tileCenterX;
     }
 
     public static int getTileCenterYFromIndex(int j){
         int tileCenterY;
-        tileCenterY = j * Tile.TILE_HEIGHT * (3 / 2);
+        tileCenterY = j * Tile.TILE_HEIGHT + Tile.TILE_HEIGHT / 2;
         return tileCenterY;
     }
 
@@ -96,5 +119,17 @@ public class World {
                 tiles[x][y] = Utils.parseInt(tokens[(x + y * width + 4)]);
             }
         }
+    }
+
+    private void loadSpawnPattern(String path){
+        String file = Utils.loadFileAsString(path);
+        String[] tokens = file.split("\\s+");
+
+        spawns = new int[width][height];
+        for(int y = 0; y < height; y++){
+            for(int x = 0; x < width; x++)
+                spawns[x][y] = Utils.parseInt(tokens[(x + y * width)]);
+        }
+
     }
 }

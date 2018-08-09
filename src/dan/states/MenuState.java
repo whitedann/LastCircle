@@ -42,6 +42,7 @@ public class MenuState extends State{
         fadingToGame = false;
         doneFading = false;
         alpha = 0.0f;
+        handler.getKeyManager().resetKeys();
     }
 
     public void fadeScreenToWhite(Graphics g){

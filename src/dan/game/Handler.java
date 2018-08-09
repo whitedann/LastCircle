@@ -18,6 +18,7 @@ public class Handler {
     private Player player;
     private ArrayList<Creature> creatures;
     private WorldTracker worldTracker;
+    private int gameTimer = 0;
 
     public Handler(Game game){
         this.game = game;
@@ -46,6 +47,14 @@ public class Handler {
 
     public void setPlayer(Player player){
         this.player = player;
+    }
+
+    public void tickGameTimer(){
+        gameTimer++;
+    }
+
+    public int getGameTime(){
+        return gameTimer;
     }
 
     public Player getPlayer(){

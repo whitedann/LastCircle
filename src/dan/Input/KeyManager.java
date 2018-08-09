@@ -10,7 +10,11 @@ public class KeyManager implements KeyListener {
     public boolean up, down, left, right, rotateR, rotateL, fire, confirm, gamePausedPressed, gamePausedReleased;
     public boolean togglePause = false;
 
+    private boolean[] keysPressed, keysReleased;
+
     public KeyManager(){
+        keysPressed = new boolean[256];
+        keysReleased = new boolean[256];
         keys = new boolean[256];
     }
 
@@ -22,7 +26,13 @@ public class KeyManager implements KeyListener {
         rotateR = keys[KeyEvent.VK_L];
         rotateL = keys[KeyEvent.VK_J];
         fire = keys[KeyEvent.VK_SPACE];
-        confirm = keys[KeyEvent.VK_ENTER];
+
+        if(keysPressed[KeyEvent.VK_ENTER] && keysReleased[KeyEvent.VK_ENTER]){
+            confirm = true;
+            keysReleased = new boolean[256];
+            keysPressed = new boolean[256];
+        }
+
 
         if(gamePausedPressed && gamePausedReleased) {
             togglePause = true;
@@ -30,6 +40,10 @@ public class KeyManager implements KeyListener {
             gamePausedPressed = false;
         }
 
+    }
+
+    public void resetKeys(){
+        confirm = false;
     }
 
     public boolean playerRequestsPause(){
@@ -47,6 +61,7 @@ public class KeyManager implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         keys[e.getKeyCode()] = true;
+        keysPressed[e.getKeyCode()] = true;
         if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
             gamePausedPressed = true;
     }
@@ -54,6 +69,7 @@ public class KeyManager implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         keys[e.getKeyCode()] = false;
+        keysReleased[e.getKeyCode()] = true;
         if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
             gamePausedReleased = true;
     }

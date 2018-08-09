@@ -71,7 +71,7 @@ public class Blob extends Creature{
     }
 
     public BufferedImage getCurrentAnimationFrame(){
-        if(!isAlive) {
+        if(!isAlive && !finishedDying()) {
             blobDie.tick();
             return blobDie.getCurrentFrame();
         }

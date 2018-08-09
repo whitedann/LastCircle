@@ -1,3 +1,12 @@
+TO BUILD A NEW WORLD FILE:
 
-tiles 16x11
+The first line is two numbers consisting of the height and width of the map.
+The second line is two numbers consisting of the starting tile index of the player
+Then, create a grid i by j numbers in dimension. A "1" corresponds to a floor tile,
+and a "0" corresponds to a brick (wall) tile. "world1.txt" is a basic example of this,
+with all floor tiles surrounded by a boundary of wall tiles.
+
+TO BUILD A NEW SPAWN PATTERN:
+
+The dimensions of the spawn pattern must be the same as the world it is designed for.
 

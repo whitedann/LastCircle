@@ -68,13 +68,13 @@ public abstract class Entity {
 
     //Change to use window size, not just random-looking integrers
     public boolean isWithinMaxRenderDistance(){
-        if(this.getX() > handler.getPlayer().getX() + 548)
+        if(this.getX() > handler.getPlayer().getX() + 530)
             return false;
-        else if(this.getX() < handler.getPlayer().getX() - 548)
+        else if(this.getX() < handler.getPlayer().getX() - 530)
             return false;
-        else if(this.getY() > handler.getPlayer().getY() + 340)
+        else if(this.getY() > handler.getPlayer().getY() + 360)
             return false;
-        else if(this.getY() < handler.getPlayer().getY() - 340)
+        else if(this.getY() < handler.getPlayer().getY() - 360)
             return false;
         else
             return true;

@@ -219,7 +219,7 @@ public abstract class Creature extends Entity {
      public boolean hitByPlayer(){
         if(handler.getPlayer().finishedFiring()) {
             Ellipse2D hitbox = new Ellipse2D.Double(x - handler.getCamera().getxOffset() - this.bounds.getRadius(),
-                    y - handler.getCamera().getyOffset() - this.bounds.getRadius() , bounds.getRadius(),bounds.getRadius());
+                    y - handler.getCamera().getyOffset() - this.bounds.getRadius(), bounds.getRadius()+10,bounds.getRadius()+10);
             if (Utils.testIntersection(hitbox, handler.getPlayer().getLaserRect()))
                 return true;
             else

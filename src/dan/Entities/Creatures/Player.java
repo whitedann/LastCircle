@@ -15,6 +15,7 @@ public class Player extends Creature {
     private boolean playerFiring;
     public boolean playerKilled;
     private Shape laserRect;
+    private int beamWidth = 1;
 
     public Player(Handler handler, float x, float y, float angle) {
         super(handler, x, y, angle, Creature.DEFAULT_CREATURE_WIDTH,Creature.DEFAULT_CREATURE_HEIGHT);
@@ -24,7 +25,7 @@ public class Player extends Creature {
         this.setRotationalSpeed(0.05f);
 
         //Player animations
-        playerFire = new Animation(10, Assets.turretFire);
+        playerFire = new Animation(20, Assets.turretFire);
         playerDie = new Animation(50, Assets.playerDie);
         animateRocket = new Animation(50, Assets.animateRocket);
 
@@ -35,13 +36,20 @@ public class Player extends Creature {
     @Override
     public void tick() {
         getInput();
+        if(finishedFiring())
+            laserRect = placeBeamProjectile();
+        else
+            laserRect = new Rectangle(0,0,1,1);
         move();
         handler.getCamera().centerOnEntity(this);
         if(entityEntityCollision())
             playerKilled = true;
-        if(playerFiring)
-            laserRect = placeBeamProjectile();
+    }
 
+    public void levelUp(int score){
+        int playerLevel = score / 1000;
+        if(beamWidth < 10)
+            beamWidth = 1 + 1 * playerLevel;
     }
 
     public void getInput() {
@@ -94,7 +102,7 @@ public class Player extends Creature {
         //to the player's orientation.
         Double anchorX = Double.valueOf(x - handler.getCamera().getxOffset());
         Double anchorY = Double.valueOf(y - handler.getCamera().getyOffset() - 1);
-        Rectangle2D rect = new Rectangle2D.Double(anchorX + 32,  anchorY - 3, handler.getPlayer().getDistanceToNearestEntity(), 5);
+        Rectangle2D rect = new Rectangle2D.Double(anchorX + 32,  anchorY - 3, handler.getPlayer().getDistanceToNearestEntity(), beamWidth);
         AffineTransform at = AffineTransform.getRotateInstance(angle,anchorX, anchorY);
         Shape rotatedRect = at.createTransformedShape(rect);
         return rotatedRect;

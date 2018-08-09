@@ -1,11 +1,8 @@
 package dan.states;
 
-import dan.Entities.Creatures.Blob;
-import dan.Entities.Creatures.Contagion;
 import dan.Entities.Creatures.Creature;
 import dan.Entities.Creatures.Player;
 import dan.Entities.Entity;
-import dan.Tile.Tile;
 import dan.Worlds.World;
 import dan.Worlds.WorldTracker;
 import dan.game.Handler;
@@ -19,25 +16,17 @@ public class GameState extends State{
     private World world;
     private WorldTracker worldTracker;
     private Iterator<Creature> iter;
-    private int timer;
+    private int gameTime, score;
 
     public GameState(Handler handler){
         super(handler);
-        this.world = new World(handler,"res/world/world1.txt");
+        this.world = new World(handler,"res/world/world1.txt", "res/world/SpawnPattern1.txt");
         this.handler.setWorld(world);
         this.player = new Player(handler,500,500,0);
         this.handler.setPlayer(player);
         this.worldTracker = new WorldTracker(handler);
         this.handler.setWorldTracker(worldTracker);
-        this.timer = 0;
-        Contagion cont1 = new Contagion(handler, 0, 0,  (float) (Math.PI));
-        Contagion cont2 = new Contagion(handler, 0, 0, 0);
-        Contagion cont3 = new Contagion(handler, 0, 0, (float) (Math.PI/2));
-        Contagion cont4 = new Contagion(handler, 0, 0, (float) Math.PI/3);
-        handler.addCreature(cont4);
-        handler.addCreature(cont2);
-        handler.addCreature(cont3);
-        handler.addCreature(cont1);
+        this.score = 0;
         player.setSpeed(5.0f);
     }
 
@@ -48,11 +37,11 @@ public class GameState extends State{
         player.tick();
         for(Creature e : this.handler.getCreatures())
             e.tick();
+        handler.tickGameTimer();
         world.tick();
-        timer += 1;
         removeDeadEnemies();
-        spawnEnemies();
         checkForEndGame();
+        player.levelUp(score);
     }
 
     @Override
@@ -64,12 +53,18 @@ public class GameState extends State{
                 e.render(g);
         if(player.finishedDying())
             showDeathScreen(g);
+        g.setColor(Color.ORANGE);
+        g.setFont(new Font("Calibri", Font.BOLD,45));
+        g.drawString(String.format("%d ", score), 100,50);
     }
+
 
     public void checkForEndGame(){
         if(player.playerKilled){
-            if(handler.getKeyManager().confirm)
-               StateManager.setState(handler.getGame().menuState);
+            if(handler.getKeyManager().confirm) {
+                handler.getKeyManager().resetKeys();
+                StateManager.setState(handler.getGame().menuState);
+            }
         }
     }
 
@@ -87,23 +82,8 @@ public class GameState extends State{
             Creature creature = iter.next();
             if(creature.finishedDying()) {
                 iter.remove();
+                score += 10;
             }
-        }
-    }
-
-    public void spawnEnemies() {
-        if (timer == 100){
-            int x, y;
-            if(this.handler.getCreatures().size() < 1000) {
-                for(int i = 1; i < 20; i++) {
-                    x = i*64;
-                    y = 100;
-                    if(!handler.getWorldTracker().thisCellContainsEntiies(x / Tile.TILE_WIDTH + 1, y / Tile.TILE_HEIGHT + 1) &&
-                            !handler.getWorldTracker().thisCellContainsEntiies( x / Tile.TILE_WIDTH, y / Tile.TILE_HEIGHT + 1))
-                        handler.addCreature(new Blob(handler, handler.getWorld().getTileCenterX(x) , handler.getWorld().getTileCenterY(y) , 0));
-                }
-            }
-            timer = 0;
         }
     }
 }
