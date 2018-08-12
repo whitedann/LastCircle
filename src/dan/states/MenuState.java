@@ -10,18 +10,27 @@ public class MenuState extends State{
 
     private float alpha;
     private boolean fadingToGame, doneFading;
+    private int menuSelection;
 
     public MenuState(Handler handler) {
         super(handler);
         alpha = 0.0f;
         fadingToGame = false;
         doneFading = false;
+        menuSelection = 0;
     }
 
     @Override
     public void tick(){
+        processSelectionMovement();
         if(handler.getKeyManager().confirm) {
-            fadingToGame = true;
+            if (menuSelection == 0)
+                fadingToGame = true;
+            if (menuSelection == 1)
+                StateManager.setState(handler.getGame().controlsState);
+            if (menuSelection == 2){
+                handler.getGame().quit();
+            }
         }
         if(doneFading) {
             handler.getGame().resetGame();
@@ -33,12 +42,33 @@ public class MenuState extends State{
     @Override
     public void render(Graphics g) {
         g.drawImage(Assets.start1, 384, 350, null);
-        g.fillRect(256,200,512,100);
+        g.setColor(Color.WHITE);
+        g.fillRect(384,400,256,50);
+        g.fillRect(384,451,256,50);
+        g.fillRect(384, 502, 256, 50);
+        renderMenuSelection(g);
         if(fadingToGame)
             fadeScreenToWhite(g);
     }
 
+    public void processSelectionMovement(){
+        if(handler.getKeyManager().menuUP) {
+            if (menuSelection > 0)
+                menuSelection--;
+        }
+        if(handler.getKeyManager().menuDown) {
+            if (menuSelection < 2)
+                menuSelection++;
+        }
+    }
+
+    public void renderMenuSelection(Graphics g){
+        g.setColor(Color.yellow);
+        g.fillRect(384,400 + 51 * menuSelection, 256, 50);
+    }
+
     public void resetMenu(){
+        menuSelection = 0;
         fadingToGame = false;
         doneFading = false;
         alpha = 0.0f;

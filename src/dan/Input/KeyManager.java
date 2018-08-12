@@ -2,12 +2,12 @@ package dan.Input;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.security.Key;
 
 public class KeyManager implements KeyListener {
 
     private boolean[] keys;
-    public boolean up, down, left, right, rotateR, rotateL, fire, confirm, gamePausedPressed, gamePausedReleased;
+    public boolean up, down, left, right, rotateR, rotateL, fire, confirm, gamePausedPressed, gamePausedReleased,
+    menuUP, menuDown;
     public boolean togglePause = false;
 
     private boolean[] keysPressed, keysReleased;
@@ -27,30 +27,39 @@ public class KeyManager implements KeyListener {
         rotateL = keys[KeyEvent.VK_J];
         fire = keys[KeyEvent.VK_SPACE];
 
-        if(keysPressed[KeyEvent.VK_ENTER] && keysReleased[KeyEvent.VK_ENTER]){
+        resetKeys();
+        processInput();
+
+    }
+
+    public void processInput() {
+        if (keyPressedAndReleased(KeyEvent.VK_UP)) {
+            menuUP = true;
+            resetKeysTyped();
+        }
+        if (keyPressedAndReleased(KeyEvent.VK_DOWN)) {
+            menuDown = true;
+            resetKeysTyped();
+        }
+        if (keyPressedAndReleased(KeyEvent.VK_ENTER)) {
             confirm = true;
-            keysReleased = new boolean[256];
-            keysPressed = new boolean[256];
+            resetKeysTyped();
         }
-
-
-        if(gamePausedPressed && gamePausedReleased) {
+        if(keyPressedAndReleased(KeyEvent.VK_ESCAPE)){
             togglePause = true;
-            gamePausedReleased = false;
-            gamePausedPressed = false;
+            resetKeysTyped();
         }
+    }
 
+    public void resetKeysTyped(){
+        keysPressed = new boolean[256];
+        keysReleased = new boolean[256];
     }
 
     public void resetKeys(){
         confirm = false;
-    }
-
-    public boolean playerRequestsPause(){
-        return this.togglePause;
-    }
-
-    public void resetPauseCheck(){
+        menuUP = false;
+        menuDown = false;
         togglePause = false;
     }
 
@@ -62,20 +71,18 @@ public class KeyManager implements KeyListener {
     public void keyPressed(KeyEvent e) {
         keys[e.getKeyCode()] = true;
         keysPressed[e.getKeyCode()] = true;
-        if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
-            gamePausedPressed = true;
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         keys[e.getKeyCode()] = false;
         keysReleased[e.getKeyCode()] = true;
-        if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
-            gamePausedReleased = true;
     }
 
-    public void keyPressedAndReleased(KeyEvent e){
-
+    public boolean keyPressedAndReleased(int keyCode){
+        if(keysPressed[keyCode] && keysReleased[keyCode])
+            return true;
+        else
+            return false;
     }
-
 }

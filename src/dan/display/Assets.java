@@ -12,6 +12,7 @@ public class Assets {
     public static BufferedImage[] blobMove;
     public static BufferedImage[] playerDie;
     public static BufferedImage[] blobDie;
+    public static BufferedImage[] blobSpawning;
     public static BufferedImage[] animateRocket;
     public static BufferedImage[] contagionMove;
 
@@ -70,6 +71,14 @@ public class Assets {
        blobDie[4] = blobSheet.crop(2*WIDTH, 3*HEIGHT/2, WIDTH/2, HEIGHT/2);
        blobDie[5] = blobSheet.crop(5*WIDTH/2, 3*HEIGHT/2, WIDTH/2, HEIGHT/2);
        blobDie[6] = blobSheet.crop(3*WIDTH, 3*HEIGHT/2, WIDTH/2, HEIGHT/2);
+
+       blobSpawning = new BufferedImage[6];
+       blobSpawning[0] = blobSheet.crop(0, 5*HEIGHT/2, WIDTH/2, HEIGHT/2);
+       blobSpawning[1] = blobSheet.crop(WIDTH/2, 5*HEIGHT/2, WIDTH/2, HEIGHT/2);
+       blobSpawning[2] = blobSheet.crop(WIDTH, 5*HEIGHT/2, WIDTH/2, HEIGHT/2);
+       blobSpawning[3] = blobSheet.crop(3*WIDTH/2, 5*HEIGHT/2, WIDTH/2, HEIGHT/2);
+       blobSpawning[4] = blobSheet.crop(2*WIDTH, 5*HEIGHT/2, WIDTH/2, HEIGHT/2);
+       blobSpawning[5] = blobSheet.crop(5*WIDTH/2, 5*HEIGHT/2, WIDTH/2, HEIGHT/2);
 
        SpriteSheet rocketSheet = new SpriteSheet(ImageLoader.loadImage("/textures/rocketAnimations.png"));
        animateRocket = new BufferedImage[4];

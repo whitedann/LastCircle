@@ -35,6 +35,10 @@ public class Player extends Creature {
 
     @Override
     public void tick() {
+        if(playerKilled){
+            xMove = 0;
+            yMove = 0;
+        }
         getInput();
         if(finishedFiring())
             laserRect = placeBeamProjectile();
@@ -102,7 +106,7 @@ public class Player extends Creature {
         //to the player's orientation.
         Double anchorX = Double.valueOf(x - handler.getCamera().getxOffset());
         Double anchorY = Double.valueOf(y - handler.getCamera().getyOffset() - 1);
-        Rectangle2D rect = new Rectangle2D.Double(anchorX + 32,  anchorY - 3, handler.getPlayer().getDistanceToNearestEntity(), beamWidth);
+        Rectangle2D rect = new Rectangle2D.Double(anchorX + 32,  anchorY - 3, handler.getPlayer().getDistanceToNearestEntity(), beamWidth+5);
         AffineTransform at = AffineTransform.getRotateInstance(angle,anchorX, anchorY);
         Shape rotatedRect = at.createTransformedShape(rect);
         return rotatedRect;

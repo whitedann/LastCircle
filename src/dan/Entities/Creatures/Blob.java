@@ -1,30 +1,29 @@
 package dan.Entities.Creatures;
 
 import dan.Entities.Entity;
-import dan.Utils.Utils;
 import dan.display.Animation;
 import dan.display.Assets;
 import dan.game.Handler;
+import javafx.scene.shape.Circle;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 
 
 public class Blob extends Creature{
 
     private Entity target;
-    private boolean isAlive;
-    private Animation blobMove, blobDie;
+    private Animation blobMove, blobDie, blobSpawning;
 
     public Blob(Handler handler, float x, float y, float angle) {
         super(handler, x, y, angle,32,32);
         setTarget(handler.getPlayer());
-        this.angle = 0;
         isAlive = true;
+        this.angle = 0;
         blobMove = new Animation(50, Assets.blobMove);
         blobDie = new Animation(50, Assets.blobDie);
+        blobSpawning = new Animation(100, Assets.blobSpawning);
     }
 
     public void setTarget(Entity target){
@@ -33,11 +32,22 @@ public class Blob extends Creature{
 
     @Override
     public void tick() {
-        if(hitByPlayer())
-            isAlive = false;
-        getDirection();
-        move();
-        blobMove.tick();
+        if(isSpawned()) {
+            this.bounds = new Circle(x, y, width/2);
+            if (hitByPlayer()) {
+                isAlive = false;
+                blobDie.tick();
+            }
+            else {
+                getDirection();
+                move();
+                blobMove.tick();
+            }
+        }
+        else {
+            this.bounds = new Circle(0,0,0);
+            blobSpawning.tick();
+        }
     }
 
     @Override
@@ -63,6 +73,13 @@ public class Blob extends Creature{
             yMove = -1.0f;
     }
 
+    public boolean isSpawned(){
+        if(blobSpawning.getCurrentFrameIndex() == 5)
+            return true;
+        else
+            return false;
+    }
+
     public boolean finishedDying(){
         if(blobDie.getCurrentFrameIndex() == 6)
             return true;
@@ -71,8 +88,10 @@ public class Blob extends Creature{
     }
 
     public BufferedImage getCurrentAnimationFrame(){
-        if(!isAlive && !finishedDying()) {
-            blobDie.tick();
+        if(!isSpawned()){
+            return blobSpawning.getCurrentFrame();
+        }
+        else if(!isAlive && !finishedDying()) {
             return blobDie.getCurrentFrame();
         }
         else

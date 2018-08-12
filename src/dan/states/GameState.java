@@ -16,7 +16,7 @@ public class GameState extends State{
     private World world;
     private WorldTracker worldTracker;
     private Iterator<Creature> iter;
-    private int gameTime, score;
+    private int score, time;
 
     public GameState(Handler handler){
         super(handler);
@@ -37,11 +37,12 @@ public class GameState extends State{
         player.tick();
         for(Creature e : this.handler.getCreatures())
             e.tick();
-        handler.tickGameTimer();
         world.tick();
         removeDeadEnemies();
         checkForEndGame();
         player.levelUp(score);
+        if(!player.playerKilled)
+            time++;
     }
 
     @Override
@@ -53,9 +54,15 @@ public class GameState extends State{
                 e.render(g);
         if(player.finishedDying())
             showDeathScreen(g);
-        g.setColor(Color.ORANGE);
-        g.setFont(new Font("Calibri", Font.BOLD,45));
-        g.drawString(String.format("%d ", score), 100,50);
+        else
+            renderUI(g);
+    }
+
+    public void renderUI(Graphics g){
+       g.setColor(Color.ORANGE);
+       g.setFont(new Font("Calibri", Font.BOLD,30));
+       g.drawString(String.format("Score: %d ", score), 10,30);
+       g.drawString(String.format("Time: %d ", time/60), 850, 30);
     }
 
 
@@ -74,6 +81,13 @@ public class GameState extends State{
         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.fillRect(0,0, 1024, 720);
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+        g2d.setFont(new Font("Calibri", Font.BOLD, 80));
+        g2d.setColor(Color.RED);
+        g2d.drawString("GAME OVER", 275, 400);
+        g2d.setFont(new Font("Calibri", Font.PLAIN, 40));
+        g2d.drawString(String.format("Time: %d", time/60), 320,450);
+        g2d.drawString(String.format("Score: %d", score), 570, 450);
     }
 
     public void removeDeadEnemies(){
