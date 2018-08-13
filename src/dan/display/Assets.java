@@ -6,7 +6,8 @@ import java.nio.Buffer;
 public class Assets {
 
     private static final int WIDTH = 64, HEIGHT = 64;
-    public static BufferedImage turretE, brokenBrick, grid, border, start1, start2, brick;
+    public static BufferedImage turretE, brokenBrick, grid, border, start1, brick, controlsButton, exitButton,
+      exitButtonSelected, controlButtonSelected, surivalModeButton, survivalModeButtonSelected;
 
     public static BufferedImage[] turretFire;
     public static BufferedImage[] blobMove;
@@ -18,7 +19,12 @@ public class Assets {
 
     public static void init(){
        start1 = ImageLoader.loadImage("/textures/start1.png");
-       start2 = ImageLoader.loadImage("/textures/start2.png");
+       controlsButton = ImageLoader.loadImage("/textures/controlsButton.png");
+       exitButton = ImageLoader.loadImage("/textures/exitButton.png");
+       exitButtonSelected = ImageLoader.loadImage("/textures/exitButtonSelected.png");
+       controlButtonSelected = ImageLoader.loadImage("/textures/controlButtonSelected.png");
+       surivalModeButton = ImageLoader.loadImage("/textures/survivalModeButton.png");
+       survivalModeButtonSelected = ImageLoader.loadImage("/textures/survivalModeButtonSelected.png");
 
        SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/textures/turret.png"));
 

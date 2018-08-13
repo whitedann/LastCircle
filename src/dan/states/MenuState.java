@@ -43,10 +43,19 @@ public class MenuState extends State{
     public void render(Graphics g) {
         g.drawImage(Assets.start1, 384, 350, null);
         g.setColor(Color.WHITE);
-        g.fillRect(384,400,256,50);
-        g.fillRect(384,451,256,50);
-        g.fillRect(384, 502, 256, 50);
-        renderMenuSelection(g);
+        if(menuSelection == 2)
+            g.drawImage(Assets.exitButtonSelected, 384, 502, null);
+        else
+            g.drawImage(Assets.exitButton, 384, 502, null);
+        if(menuSelection == 1)
+            g.drawImage(Assets.controlButtonSelected, 384, 451, null);
+        else
+            g.drawImage(Assets.controlsButton, 384, 451, null);
+        if(menuSelection == 0)
+            g.drawImage(Assets.survivalModeButtonSelected, 384, 400, null);
+        else
+            g.drawImage(Assets.surivalModeButton, 384, 400, null);
+        System.out.println(menuSelection);
         if(fadingToGame)
             fadeScreenToWhite(g);
     }
@@ -60,11 +69,6 @@ public class MenuState extends State{
             if (menuSelection < 2)
                 menuSelection++;
         }
-    }
-
-    public void renderMenuSelection(Graphics g){
-        g.setColor(Color.yellow);
-        g.fillRect(384,400 + 51 * menuSelection, 256, 50);
     }
 
     public void resetMenu(){
