@@ -19,15 +19,10 @@ Draw better death animation for Blob (use different colors)
 
 Make game freeze when player dies. (No movement, firing, scoring, time ticking, etc)
 
-Add things to death screen such as final score
-
 Add things to pause screen such as quit, controls, etc.
 
+
 Add Campaign and survival modes
-
-Fix wonkey collision issues (with walls primarily)
-
-Fix rendering death animations when out of rendering range? UPDATE: Come back to this later
 
 Disable collision with entities when the entity has died
 

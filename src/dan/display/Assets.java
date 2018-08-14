@@ -7,7 +7,7 @@ public class Assets {
 
     private static final int WIDTH = 64, HEIGHT = 64;
     public static BufferedImage turretE, brokenBrick, grid, border, start1, brick, controlsButton, exitButton,
-      exitButtonSelected, controlButtonSelected, surivalModeButton, survivalModeButtonSelected;
+      exitButtonSelected, controlButtonSelected, surivalModeButton, survivalModeButtonSelected, menuArrow;
 
     public static BufferedImage[] turretFire;
     public static BufferedImage[] blobMove;
@@ -25,6 +25,7 @@ public class Assets {
        controlButtonSelected = ImageLoader.loadImage("/textures/controlButtonSelected.png");
        surivalModeButton = ImageLoader.loadImage("/textures/survivalModeButton.png");
        survivalModeButtonSelected = ImageLoader.loadImage("/textures/survivalModeButtonSelected.png");
+       menuArrow =  ImageLoader.loadImage("/textures/menuArrow.png");
 
        SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/textures/turret.png"));
 
