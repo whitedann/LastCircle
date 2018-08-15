@@ -20,7 +20,7 @@ public class GameState extends State{
 
     public GameState(Handler handler){
         super(handler);
-        this.world = new World(handler,"res/world/world1.txt", "res/world/SpawnPattern1.txt");
+        this.world = new World(handler,"res/world/world2.txt", "res/world/SpawnPattern2.txt");
         this.handler.setWorld(world);
         this.player = new Player(handler,500,500,0);
         this.handler.setPlayer(player);
@@ -37,6 +37,8 @@ public class GameState extends State{
         player.tick();
         for(Creature e : this.handler.getCreatures())
             e.tick();
+        if(time % 1000 == 999)
+            world.incrementDifficulty();
         world.tick();
         removeDeadEnemies();
         checkForEndGame();
@@ -96,7 +98,7 @@ public class GameState extends State{
             Creature creature = iter.next();
             if(creature.finishedDying()) {
                 iter.remove();
-                score += 10;
+                score += 5;
             }
         }
     }

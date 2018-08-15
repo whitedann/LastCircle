@@ -7,7 +7,7 @@ public class KeyManager implements KeyListener {
 
     private boolean[] keys;
     public boolean up, down, left, right, rotateR, rotateL, fire, confirm, gamePausedPressed, gamePausedReleased,
-    menuUP, menuDown, menuRight;
+    menuUP, menuDown, menuRight,menuLeft;
     public boolean togglePause = false;
 
     private boolean[] keysPressed, keysReleased;
@@ -49,6 +49,10 @@ public class KeyManager implements KeyListener {
             menuRight = true;
             resetKeysTyped();
         }
+        if(keyPressedAndReleased(KeyEvent.VK_LEFT)){
+            menuLeft = true;
+            resetKeysTyped();
+        }
         if(keyPressedAndReleased(KeyEvent.VK_ESCAPE)){
             togglePause = true;
             resetKeysTyped();
@@ -64,6 +68,7 @@ public class KeyManager implements KeyListener {
         confirm = false;
         menuUP = false;
         menuDown = false;
+        menuLeft = false;
         togglePause = false;
         menuRight = false;
     }

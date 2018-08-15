@@ -14,6 +14,7 @@ public class World {
     private int[][] tiles;
     private int[][] spawns;
     private int timer = 0;
+    private int spawnInterval = 300;
     private int currentWave = 2;
 
     public World(Handler handler, String path, String spawnPatternFile){
@@ -43,7 +44,7 @@ public class World {
     }
 
     public void spawnEnemies(){
-        if(timer == 120) {
+        if(timer == spawnInterval) {
             if(currentWave > 4)
                 currentWave = 2;
             for (int y = 0; y < height; y++) {
@@ -119,6 +120,10 @@ public class World {
                 tiles[x][y] = Utils.parseInt(tokens[(x + y * width + 4)]);
             }
         }
+    }
+
+    public void incrementDifficulty(){
+        spawnInterval -= 10;
     }
 
     private void loadSpawnPattern(String path){

@@ -6,14 +6,13 @@ import dan.game.Handler;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.nio.Buffer;
 
 
 public class MenuState extends State{
 
     private float alpha;
     private boolean fadingToGame, doneFading, switchingModes;
-    private int menuSelection, currentMode, slideCoordinate;
+    private int menuSelection, currentMode, slideCoordinate, timer;
 
     public MenuState(Handler handler) {
         super(handler);
@@ -27,6 +26,9 @@ public class MenuState extends State{
 
     @Override
     public void tick(){
+        timer++;
+        if(timer > 60)
+            timer = 0;
         processSelectionMovement();
         if(handler.getKeyManager().confirm) {
             if (menuSelection == 0)
@@ -55,9 +57,11 @@ public class MenuState extends State{
     }
 
     public void switchModeSelection(Graphics g){
-        if(menuSelection == 0 && handler.getKeyManager().menuRight){
-           switchingModes = true;
-           currentMode *= -1;
+        if(menuSelection == 0){
+            if(handler.getKeyManager().menuRight || handler.getKeyManager().menuLeft) {
+                switchingModes = true;
+                currentMode *= -1;
+            }
         }
         System.out.println(currentMode);
         switch(currentMode){
@@ -124,11 +128,15 @@ public class MenuState extends State{
     public void renderMenuArrows(Graphics g){
         if(menuSelection == 0) {
             Graphics2D g2d = (Graphics2D) g;
-            g2d.drawImage(Assets.menuArrow, 384 + 200, 410, null);
+            AffineTransform at1 = new AffineTransform();
+            at1.translate(584,410);
+            at1.scale(timer*0.01 + 0.5, 1);
+            g2d.drawImage(Assets.menuArrow,at1, null);
             AffineTransform at = new AffineTransform();
             //this transform I found via trial and error, there is probably a better way to do this.
-            at.translate(432,441);
+            at.translate(430,441);
             at.rotate(Math.PI);
+            at.scale(timer*0.01+ 0.5,1);
             g2d.drawImage(Assets.menuArrow,at, null);
         }
     }

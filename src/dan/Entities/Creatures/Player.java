@@ -3,6 +3,7 @@ package dan.Entities.Creatures;
 import dan.display.Animation;
 import dan.display.Assets;
 import dan.game.Handler;
+import org.w3c.dom.css.Rect;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -25,7 +26,7 @@ public class Player extends Creature {
         this.setRotationalSpeed(0.05f);
 
         //Player animations
-        playerFire = new Animation(20, Assets.turretFire);
+        playerFire = new Animation(10, Assets.turretFire);
         playerDie = new Animation(50, Assets.playerDie);
         animateRocket = new Animation(50, Assets.animateRocket);
 
@@ -35,19 +36,19 @@ public class Player extends Creature {
 
     @Override
     public void tick() {
-        if(playerKilled){
-            xMove = 0;
-            yMove = 0;
-        }
         getInput();
         if(finishedFiring())
             laserRect = placeBeamProjectile();
         else
-            laserRect = new Rectangle(0,0,1,1);
+            laserRect = new Rectangle(0, 0, 1, 1);
         move();
         handler.getCamera().centerOnEntity(this);
-        if(entityEntityCollision())
+        if(entityEntityCollision()) {
             playerKilled = true;
+            playerFiring = false;
+            xMove = 0;
+            yMove = 0;
+        }
     }
 
     public void levelUp(int score){
@@ -106,7 +107,7 @@ public class Player extends Creature {
         //to the player's orientation.
         Double anchorX = Double.valueOf(x - handler.getCamera().getxOffset());
         Double anchorY = Double.valueOf(y - handler.getCamera().getyOffset() - 1);
-        Rectangle2D rect = new Rectangle2D.Double(anchorX + 32,  anchorY - 3, handler.getPlayer().getDistanceToNearestEntity(), beamWidth+5);
+        Rectangle2D rect = new Rectangle2D.Double(anchorX + 31,  anchorY, handler.getPlayer().getDistanceToNearestEntity(), beamWidth);
         AffineTransform at = AffineTransform.getRotateInstance(angle,anchorX, anchorY);
         Shape rotatedRect = at.createTransformedShape(rect);
         return rotatedRect;

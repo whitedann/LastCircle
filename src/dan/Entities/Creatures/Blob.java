@@ -64,13 +64,13 @@ public class Blob extends Creature{
         xMove = 0;
         yMove = 0;
         if(x < target.getX())
-            xMove = 1.0f;
+            xMove = 1.5f;
         else
-            xMove = -1.0f;
+            xMove = -1.5f;
         if(y < target.getY())
-            yMove = 1.0f;
+            yMove = 1.5f;
         else
-            yMove = -1.0f;
+            yMove = -1.5f;
     }
 
     public boolean isSpawned(){
@@ -81,7 +81,7 @@ public class Blob extends Creature{
     }
 
     public boolean finishedDying(){
-        if(blobDie.getCurrentFrameIndex() == 6)
+        if(blobDie.getCurrentFrameIndex() == 3)
             return true;
         else
             return false;

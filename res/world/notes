@@ -21,8 +21,11 @@ Make game freeze when player dies. (No movement, firing, scoring, time ticking, 
 
 Add things to pause screen such as quit, controls, etc.
 
-
 Add Campaign and survival modes
+
+Add more worlds+ spawns
+
+FIX COLLISION WITH TILES FOR CHRISTSSAKES
 
 Disable collision with entities when the entity has died
 
