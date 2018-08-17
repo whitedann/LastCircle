@@ -26,7 +26,7 @@ public class Player extends Creature {
         this.setRotationalSpeed(0.05f);
 
         //Player animations
-        playerFire = new Animation(10, Assets.turretFire);
+        playerFire = new Animation(200, Assets.turretFire);
         playerDie = new Animation(50, Assets.playerDie);
         animateRocket = new Animation(50, Assets.animateRocket);
 
@@ -107,7 +107,7 @@ public class Player extends Creature {
         //to the player's orientation.
         Double anchorX = Double.valueOf(x - handler.getCamera().getxOffset());
         Double anchorY = Double.valueOf(y - handler.getCamera().getyOffset() - 1);
-        Rectangle2D rect = new Rectangle2D.Double(anchorX + 31,  anchorY, handler.getPlayer().getDistanceToNearestEntity(), beamWidth);
+        Rectangle2D rect = new Rectangle2D.Double(anchorX + 31,  anchorY, getDistanceToNearestEntity(), beamWidth);
         AffineTransform at = AffineTransform.getRotateInstance(angle,anchorX, anchorY);
         Shape rotatedRect = at.createTransformedShape(rect);
         return rotatedRect;

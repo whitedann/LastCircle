@@ -13,17 +13,18 @@ import java.awt.image.BufferedImage;
 
 public class Blob extends Creature{
 
+    private int timesHit = 0;
     private Entity target;
-    private Animation blobMove, blobDie, blobSpawning;
+    private Animation blobMove, blobHit, blobSpawning, deathAnimation;
 
     public Blob(Handler handler, float x, float y, float angle) {
         super(handler, x, y, angle,32,32);
         setTarget(handler.getPlayer());
-        isAlive = true;
         this.angle = 0;
         blobMove = new Animation(50, Assets.blobMove);
-        blobDie = new Animation(50, Assets.blobDie);
+        blobHit = new Animation(50, Assets.blobDie);
         blobSpawning = new Animation(100, Assets.blobSpawning);
+        deathAnimation = new Animation(100, Assets.blobDying);
     }
 
     public void setTarget(Entity target){
@@ -33,15 +34,21 @@ public class Blob extends Creature{
     @Override
     public void tick() {
         if(isSpawned()) {
-            this.bounds = new Circle(x, y, width/2);
-            if (hitByPlayer()) {
-                isAlive = false;
-                blobDie.tick();
+            if(!isDead()) {
+                this.bounds = new Circle(x, y, width / 2);
+                if (hitByPlayer()) {
+                    //TODO reset bounds when hit
+                    timesHit += 1;
+                    blobHit.tick();
+                } else {
+                    getDirection();
+                    move();
+                    blobMove.tick();
+                }
             }
-            else {
-                getDirection();
-                move();
-                blobMove.tick();
+            else{
+                deathAnimation.tick();
+                this.bounds = new Circle(0,0,0);
             }
         }
         else {
@@ -80,8 +87,15 @@ public class Blob extends Creature{
             return false;
     }
 
+    public boolean isDead(){
+        if(timesHit > 4)
+            return true;
+        else
+            return false;
+    }
+
     public boolean finishedDying(){
-        if(blobDie.getCurrentFrameIndex() == 3)
+        if(deathAnimation.getCurrentFrameIndex() == 7)
             return true;
         else
             return false;
@@ -91,8 +105,11 @@ public class Blob extends Creature{
         if(!isSpawned()){
             return blobSpawning.getCurrentFrame();
         }
-        else if(!isAlive && !finishedDying()) {
-            return blobDie.getCurrentFrame();
+        else if(timesHit > 0 && !isDead()) {
+            return blobHit.getCurrentFrame();
+        }
+        else if(isDead()){
+            return deathAnimation.getCurrentFrame();
         }
         else
             return blobMove.getCurrentFrame();

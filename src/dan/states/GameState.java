@@ -18,7 +18,7 @@ public class GameState extends State{
     private Iterator<Creature> iter;
     private int score, time;
 
-    public GameState(Handler handler){
+    public GameState(Handler handler, int gameMode){
         super(handler);
         this.world = new World(handler,"res/world/world2.txt", "res/world/SpawnPattern2.txt");
         this.handler.setWorld(world);

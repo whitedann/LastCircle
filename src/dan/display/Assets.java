@@ -1,5 +1,7 @@
 package dan.display;
 
+import dan.Tile.Tile;
+
 import java.awt.image.BufferedImage;
 import java.nio.Buffer;
 
@@ -14,6 +16,7 @@ public class Assets {
     public static BufferedImage[] playerDie;
     public static BufferedImage[] blobDie;
     public static BufferedImage[] blobSpawning;
+    public static BufferedImage[] blobDying;
     public static BufferedImage[] animateRocket;
     public static BufferedImage[] contagionMove;
 
@@ -86,6 +89,17 @@ public class Assets {
        blobSpawning[3] = blobSheet.crop(3*WIDTH/2, 5*HEIGHT/2, WIDTH/2, HEIGHT/2);
        blobSpawning[4] = blobSheet.crop(2*WIDTH, 5*HEIGHT/2, WIDTH/2, HEIGHT/2);
        blobSpawning[5] = blobSheet.crop(5*WIDTH/2, 5*HEIGHT/2, WIDTH/2, HEIGHT/2);
+
+       blobDying = new BufferedImage[8];
+       blobDying[0] = blobSheet.crop(2*WIDTH, 3*WIDTH/2, WIDTH/2, HEIGHT/2);
+       blobDying[1] = blobSheet.crop(3*WIDTH/2,3*HEIGHT/2, WIDTH/2, HEIGHT/2);
+       blobDying[2] = blobSheet.crop(2*WIDTH, 3*HEIGHT/2, WIDTH/2, HEIGHT/2);
+       blobDying[3] = blobSheet.crop(5*WIDTH/2, 3*HEIGHT/2, WIDTH/2, HEIGHT/2);
+       blobDying[4] = blobSheet.crop(0, 2*HEIGHT, HEIGHT/2, HEIGHT/2);
+       blobDying[5] = blobSheet.crop(WIDTH/2, 2*HEIGHT, HEIGHT/2, HEIGHT/2);
+       blobDying[6] = blobSheet.crop(WIDTH, 2*HEIGHT, HEIGHT/2, HEIGHT/2);
+       blobDying[7] = blobSheet.crop(3*WIDTH/2, 2*HEIGHT, HEIGHT/2, HEIGHT/2);
+
 
        SpriteSheet rocketSheet = new SpriteSheet(ImageLoader.loadImage("/textures/rocketAnimations.png"));
        animateRocket = new BufferedImage[4];

@@ -84,7 +84,7 @@ public class Game implements Runnable{
 
     public void resetGame(){
         this.handler = new Handler(this);
-        this.gameState = new GameState(handler);
+        this.gameState = new GameState(handler, 1);
     }
 
     public synchronized void stop(){
