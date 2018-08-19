@@ -236,7 +236,7 @@ public class Assets {
        brick = brickSheet.crop(0,0,WIDTH, HEIGHT);
        brokenBrick = brickSheet.crop(WIDTH, 0, WIDTH, HEIGHT);
 
-       grid = ImageLoader.loadImage("/textures/iGrid.png");
+       grid = ImageLoader.loadImage("/textures/iGrid2.png");
        border = ImageLoader.loadImage("/textures/border.png");
 
     }

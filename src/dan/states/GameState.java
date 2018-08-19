@@ -37,8 +37,8 @@ public class GameState extends State{
         player.tick();
         for(Creature e : this.handler.getCreatures())
             e.tick();
-        if(time % 1000 == 999)
-            world.incrementDifficulty();
+        if(time % 1200 == 0)
+            world.decreaseSpawnInterval();
         world.tick();
         removeDeadEnemies();
         checkForEndGame();

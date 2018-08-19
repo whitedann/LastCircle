@@ -15,7 +15,7 @@ public class World {
     private int[][] tiles;
     private int[][] spawns;
     private int timer = 0;
-    private int spawnInterval = 60;
+    private int spawnInterval = 300;
     private int currentWave = 2;
 
     public World(Handler handler, String path, String spawnPatternFile){
@@ -26,7 +26,7 @@ public class World {
 
     public void tick(){
         timer++;
-        spawnEnemies();
+        spawnBlobEnemies();
     }
 
     public void render(Graphics g){
@@ -44,15 +44,22 @@ public class World {
        }
     }
 
-    public void spawnEnemies(){
-        if(timer == spawnInterval) {
-            if(currentWave > 4)
+    public void spawnBlobEnemies(){
+        if(timer >= spawnInterval) {
+            BlobType currentType;
+            if(currentWave > 9)
                 currentWave = 2;
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
-                    if (spawns[x][y] == currentWave ) {
+                    if(currentWave == 5)
+                        currentType = BlobType.BIG;
+                    else if (currentWave % 2 == 0)
+                        currentType = BlobType.GREEN;
+                    else
+                        currentType = BlobType.PINWHEEL;
+                    if (spawns[x][y] == currentWave) {
                         if(!handler.getWorldTracker().thisCellContainsEntiies(x,y))
-                            handler.addCreature(new Blob(handler,getTileCenterXFromIndex(x),getTileCenterYFromIndex(y), 0));
+                            handler.addCreature(new Blob(handler,getTileCenterXFromIndex(x),getTileCenterYFromIndex(y), 0, currentType));
                     }
                 }
             }
@@ -123,8 +130,8 @@ public class World {
         }
     }
 
-    public void incrementDifficulty(){
-        spawnInterval -= 10;
+    public void decreaseSpawnInterval(){
+        spawnInterval -= 15;
     }
 
     private void loadSpawnPattern(String path){

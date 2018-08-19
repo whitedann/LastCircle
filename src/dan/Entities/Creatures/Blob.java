@@ -22,11 +22,11 @@ public class Blob extends Creature{
     private BlobType type;
     private Animation blobMove, blobHit, blobSpawning, deathAnimation;
 
-    public Blob(Handler handler, float x, float y, float angle) {
+    public Blob(Handler handler, float x, float y, float angle, BlobType type) {
         super(handler, x, y, angle,32,32);
         setTarget(handler.getPlayer());
         this.angle = 0;
-        this.type = BIG;
+        this.type = type;
         if(this.type == GREEN) {
             blobMove = new Animation(200, Assets.greenBlobMove);
             blobSpawning = new Animation(100, Assets.blobSpawning);
@@ -39,11 +39,11 @@ public class Blob extends Creature{
             blobSpawning = new Animation(200, Assets.blobSpawning);
             blobHit = new Animation(50, Assets.blobDie);
             deathAnimation = new Animation(100, Assets.blobDying);
-            setSpeed(2.5f);
+            setSpeed(1.0f);
         }
         else if(this.type == BIG){
             blobMove = new Animation(20, Assets.bigMove);
-            blobSpawning = new Animation(100, Assets.bigSpawn);
+            blobSpawning = new Animation(50, Assets.bigSpawn);
             blobHit = new Animation(100, Assets.bigHit);
             deathAnimation = new Animation(100, Assets.bigDeath);
             setSpeed(0.5f);
@@ -68,11 +68,10 @@ public class Blob extends Creature{
                     //TODO reset bounds when hit
                     timesHit += 1;
                     blobHit.tick();
-                } else {
-                    getDirection();
-                    move();
+                } else
                     blobMove.tick();
-                }
+                getDirection();
+                move();
             }
             else{
                 deathAnimation.tick();
@@ -124,10 +123,18 @@ public class Blob extends Creature{
     }
 
     public boolean isDead(){
-        if(timesHit > 50)
-            return true;
-        else
-            return false;
+        if(type == BIG) {
+            if (timesHit > 50)
+                return true;
+            else
+                return false;
+        }
+        else{
+            if(timesHit > 1)
+                return true;
+            else
+                return false;
+        }
     }
 
     @Override
