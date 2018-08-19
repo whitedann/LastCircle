@@ -63,7 +63,6 @@ public class MenuState extends State{
                 currentMode *= -1;
             }
         }
-        System.out.println(currentMode);
         switch(currentMode){
             case 1:
                 if(switchingModes)

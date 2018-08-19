@@ -26,7 +26,7 @@ public class Player extends Creature {
         this.setRotationalSpeed(0.05f);
 
         //Player animations
-        playerFire = new Animation(200, Assets.turretFire);
+        playerFire = new Animation(100, Assets.turretFire);
         playerDie = new Animation(50, Assets.playerDie);
         animateRocket = new Animation(50, Assets.animateRocket);
 
@@ -91,7 +91,7 @@ public class Player extends Creature {
         at.rotate(angle);
 
         //1st transform: moves pivot point to center of player (default dimensions are 64x64).
-        at.translate(-1 * this.getWidth() / 2, -1 * this.getHeight() / 2);
+        at.translate(-1 * this.getBounds().getRadius(), -1 * this.getBounds().getRadius());
 
         Graphics2D gd2 = (Graphics2D) g;
         gd2.drawImage(getCurrentAnimationFrame(), at, null);
@@ -118,7 +118,8 @@ public class Player extends Creature {
     }
 
     public boolean finishedFiring(){
-        if(playerFire.getCurrentFrameIndex() == 7 || playerFire.getCurrentFrameIndex() == 6)
+        if(playerFire.getCurrentFrameIndex() == 7 || playerFire.getCurrentFrameIndex() == 6 || playerFire.getCurrentFrameIndex() == 5 ||
+                playerFire.getCurrentFrameIndex() == 4)
             return true;
         else
             return false;

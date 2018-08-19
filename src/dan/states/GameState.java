@@ -20,7 +20,7 @@ public class GameState extends State{
 
     public GameState(Handler handler, int gameMode){
         super(handler);
-        this.world = new World(handler,"res/world/world2.txt", "res/world/SpawnPattern2.txt");
+        this.world = new World(handler,"res/world/world1.txt", "res/world/SpawnPattern1.txt");
         this.handler.setWorld(world);
         this.player = new Player(handler,500,500,0);
         this.handler.setPlayer(player);

@@ -96,14 +96,9 @@ public abstract class Entity {
         return this.y;
     }
 
-    public int getWidth(){
-        return this.width;
+    public void setBounds(Circle s){
+        this.bounds = s;
     }
-
-    public int getHeight(){
-        return this.height;
-    }
-
     public boolean collisionWithCircleEntity(Entity entity){
         double r = Math.sqrt(
                 Math.pow(entity.getBounds().getCenterX() - bounds.getCenterX() , 2)

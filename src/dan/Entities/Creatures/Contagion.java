@@ -33,7 +33,7 @@ public class Contagion extends Creature{
     public void render(Graphics g) {
         AffineTransform at = new AffineTransform();
         at.translate((int) (x - handler.getCamera().getxOffset()), (int) (y - handler.getCamera().getyOffset()));
-        at.translate(-1 * this.getWidth() / 2, -1 * this.getHeight() / 2);
+        at.translate(-1 * this.getBounds().getRadius(), -1 * this.getBounds().getRadius());
         Graphics2D g2 = (Graphics2D) g;
         g2.drawImage(getCurrentAnimationFrame(), at, null);
     }

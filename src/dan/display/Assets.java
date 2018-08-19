@@ -19,6 +19,13 @@ public class Assets {
     public static BufferedImage[] blobDying;
     public static BufferedImage[] animateRocket;
     public static BufferedImage[] contagionMove;
+    public static BufferedImage[] greenBlobMove;
+    public static BufferedImage[] redBlobMove;
+    public static BufferedImage[] pinwheelMove;
+    public static BufferedImage[] bigMove;
+    public static BufferedImage[] bigSpawn;
+    public static BufferedImage[] bigHit;
+    public static BufferedImage[] bigDeath;
 
     public static void init(){
        start1 = ImageLoader.loadImage("/textures/start1.png");
@@ -122,6 +129,108 @@ public class Assets {
        contagionMove[9] = contagionSheet.crop(8,16,8,8);
        contagionMove[10] = contagionSheet.crop(16,16,8,8);
        contagionMove[11] = contagionSheet.crop(24,16,8,8);
+
+       SpriteSheet greenBlobSheet = new SpriteSheet(ImageLoader.loadImage("/textures/greenBlob.png"));
+       greenBlobMove = new BufferedImage[11];
+       greenBlobMove[0] =  greenBlobSheet.crop(0, 0, WIDTH/2, HEIGHT/2);
+       greenBlobMove[1] = greenBlobSheet.crop(WIDTH/2, 0, WIDTH/2, HEIGHT/2);
+       greenBlobMove[2] = greenBlobSheet.crop(WIDTH, 0, WIDTH/2, HEIGHT/2);
+       greenBlobMove[3] = greenBlobSheet.crop((3/2)*WIDTH, 0, WIDTH/2, HEIGHT/2);
+       greenBlobMove[4] = greenBlobSheet.crop(2*WIDTH, 0, WIDTH/2, HEIGHT/2);
+       greenBlobMove[5] = greenBlobSheet.crop( (5/2)*WIDTH, 0, WIDTH/2, HEIGHT/2);
+       greenBlobMove[6] = greenBlobSheet.crop( 3*WIDTH, 0, WIDTH/2, HEIGHT/2);
+       greenBlobMove[7] = greenBlobSheet.crop((7/2)*WIDTH, 0, WIDTH/2, HEIGHT/2);
+       greenBlobMove[8] = greenBlobSheet.crop(0,HEIGHT/2, WIDTH/2, HEIGHT/2);
+       greenBlobMove[9] = greenBlobSheet.crop(WIDTH/2,HEIGHT/2, WIDTH/2, HEIGHT/2);
+       greenBlobMove[10] = greenBlobSheet.crop(WIDTH, HEIGHT/2, WIDTH/2, HEIGHT/2);
+
+       SpriteSheet redBlobSheet = new SpriteSheet(ImageLoader.loadImage("/textures/redBlob.png"));
+       redBlobMove = new BufferedImage[11];
+       redBlobMove[0] =  redBlobSheet.crop(0, 0, WIDTH/2, HEIGHT/2);
+       redBlobMove[1] = redBlobSheet.crop(WIDTH/2, 0, WIDTH/2, HEIGHT/2);
+       redBlobMove[2] = redBlobSheet.crop(WIDTH, 0, WIDTH/2, HEIGHT/2);
+       redBlobMove[3] = redBlobSheet.crop((3/2)*WIDTH, 0, WIDTH/2, HEIGHT/2);
+       redBlobMove[4] = redBlobSheet.crop(2*WIDTH, 0, WIDTH/2, HEIGHT/2);
+       redBlobMove[5] = redBlobSheet.crop( (5/2)*WIDTH, 0, WIDTH/2, HEIGHT/2);
+       redBlobMove[6] = redBlobSheet.crop( 3*WIDTH, 0, WIDTH/2, HEIGHT/2);
+       redBlobMove[7] = redBlobSheet.crop((7/2)*WIDTH, 0, WIDTH/2, HEIGHT/2);
+       redBlobMove[8] = redBlobSheet.crop(0,HEIGHT/2, WIDTH/2, HEIGHT/2);
+       redBlobMove[9] = redBlobSheet.crop(WIDTH/2,HEIGHT/2, WIDTH/2, HEIGHT/2);
+       redBlobMove[10] = redBlobSheet.crop(WIDTH, HEIGHT/2, WIDTH/2, HEIGHT/2);
+
+       SpriteSheet pinwheelSheet = new SpriteSheet(ImageLoader.loadImage("/textures/pinwheelBlob.png"));
+       pinwheelMove = new BufferedImage[24];
+       pinwheelMove[0] =  pinwheelSheet.crop(0, 0, WIDTH/2, HEIGHT/2);
+       pinwheelMove[1] = pinwheelSheet.crop(WIDTH/2, 0, WIDTH/2, HEIGHT/2);
+       pinwheelMove[2] = pinwheelSheet.crop(WIDTH, 0, WIDTH/2, HEIGHT/2);
+       pinwheelMove[3] = pinwheelSheet.crop((3/2)*WIDTH, 0, WIDTH/2, HEIGHT/2);
+       pinwheelMove[4] = pinwheelSheet.crop(2*WIDTH, 0, WIDTH/2, HEIGHT/2);
+       pinwheelMove[5] = pinwheelSheet.crop( (5/2)*WIDTH, 0, WIDTH/2, HEIGHT/2);
+       pinwheelMove[6] = pinwheelSheet.crop( 3*WIDTH, 0, WIDTH/2, HEIGHT/2);
+       pinwheelMove[7] = pinwheelSheet.crop((7/2)*WIDTH, 0, WIDTH/2, HEIGHT/2);
+       pinwheelMove[8] = pinwheelSheet.crop(0,HEIGHT/2, WIDTH/2, HEIGHT/2);
+       pinwheelMove[9] = pinwheelSheet.crop(WIDTH/2,HEIGHT/2, WIDTH/2, HEIGHT/2);
+       pinwheelMove[10] = pinwheelSheet.crop(WIDTH, HEIGHT/2, WIDTH/2, HEIGHT/2);
+       pinwheelMove[11] =  pinwheelSheet.crop((3/2)*WIDTH, HEIGHT/2, WIDTH/2, HEIGHT/2);
+       pinwheelMove[12] = pinwheelSheet.crop(2*WIDTH, HEIGHT/2, WIDTH/2, HEIGHT/2);
+       pinwheelMove[13] = pinwheelSheet.crop((5/2)*WIDTH, HEIGHT/2, WIDTH/2, HEIGHT/2);
+       pinwheelMove[14] = pinwheelSheet.crop(3*WIDTH, HEIGHT/2, WIDTH/2, HEIGHT/2);
+       pinwheelMove[15] = pinwheelSheet.crop((7/2)*WIDTH, HEIGHT/2, WIDTH/2, HEIGHT/2);
+       pinwheelMove[16] = pinwheelSheet.crop( 0, HEIGHT, WIDTH/2, HEIGHT/2);
+       pinwheelMove[17] = pinwheelSheet.crop( WIDTH/2, HEIGHT, WIDTH/2, HEIGHT/2);
+       pinwheelMove[18] = pinwheelSheet.crop(WIDTH, HEIGHT, WIDTH/2, HEIGHT/2);
+       pinwheelMove[19] = pinwheelSheet.crop((3/2)*WIDTH,HEIGHT, WIDTH/2, HEIGHT/2);
+       pinwheelMove[20] = pinwheelSheet.crop(2*WIDTH,HEIGHT, WIDTH/2, HEIGHT/2);
+       pinwheelMove[21] = pinwheelSheet.crop((5/2)*WIDTH, HEIGHT, WIDTH/2, HEIGHT/2);
+       pinwheelMove[22] = pinwheelSheet.crop(3*WIDTH, HEIGHT, WIDTH/2, HEIGHT/2);
+       pinwheelMove[23] = pinwheelSheet.crop((5/2)*WIDTH, HEIGHT, WIDTH/2, HEIGHT/2);
+
+       SpriteSheet bigSheet = new SpriteSheet(ImageLoader.loadImage("/textures/BigCircle.png"));
+       bigMove =  new BufferedImage[16];
+       bigMove[0] = bigSheet.crop(0 ,0,120,120);
+       bigMove[1] = bigSheet.crop(120, 0, 120,120);
+       bigMove[2] = bigSheet.crop(120*2, 0, 120,120);
+       bigMove[3] = bigSheet.crop(120*3, 0, 120,120);
+       bigMove[4] = bigSheet.crop(0, 120,120,120);
+       bigMove[5] = bigSheet.crop(120, 120, 120, 120);
+       bigMove[6] = bigSheet.crop( 120*2, 120, 120, 120);
+       bigMove[7] = bigSheet.crop( 120*3,120, 120,120);
+       bigMove[8] = bigSheet.crop( 0, 120*2, 120, 120);
+       bigMove[9] = bigSheet.crop( 120, 120*2, 120,120);
+       bigMove[10] = bigSheet.crop( 120*2, 120*2, 120,120);
+       bigMove[11] = bigSheet.crop( 120*3,120*2, 120,120);
+       bigMove[12] = bigSheet.crop( 0, 120*3, 120,120);
+       bigMove[13] = bigSheet.crop(120, 120*3, 120, 120);
+       bigMove[14] = bigSheet.crop(120*2, 120*2, 120, 120);
+       bigMove[15] = bigSheet.crop(120*3, 120*2, 120, 120);
+
+       SpriteSheet bigSpawnSheet = new SpriteSheet(ImageLoader.loadImage("/textures/bigspawn.png"));
+       bigSpawn = new BufferedImage[8];
+       bigSpawn[0] = bigSpawnSheet.crop(0,0,120,120);
+       bigSpawn[1] = bigSpawnSheet.crop(120, 0,120,120);
+       bigSpawn[2] = bigSpawnSheet.crop(120*2, 0, 120, 120);
+       bigSpawn[3] = bigSpawnSheet.crop(120*3, 0, 120, 120);
+       bigSpawn[4] = bigSpawnSheet.crop(0, 120, 120, 120);
+       bigSpawn[5] = bigSpawnSheet.crop(120, 120, 120,120);
+       bigSpawn[6] = bigSpawnSheet.crop( 120*2, 120, 120,120);
+       bigSpawn[7] = bigSpawnSheet.crop( 120*3,120, 120, 120);
+
+       SpriteSheet bigHitSheet = new SpriteSheet(ImageLoader.loadImage("/textures/bighit.png"));
+       bigHit = new BufferedImage[2];
+       bigHit[0] = bigHitSheet.crop(0,0,120,120);
+       bigHit[1] = bigHitSheet.crop(120, 0, 120,120);
+
+       SpriteSheet bigDeathSheet = new SpriteSheet(ImageLoader.loadImage("/textures/bigDeath.png"));
+       bigDeath = new BufferedImage[8];
+       bigDeath[0] = bigDeathSheet.crop(0,0,120, 120);
+       bigDeath[1] = bigDeathSheet.crop(120, 0, 120, 120);
+       bigDeath[2] = bigDeathSheet.crop(120*2, 0, 120,120);
+       bigDeath[3] = bigDeathSheet.crop(120*3, 0, 120, 120);
+       bigDeath[4] = bigDeathSheet.crop(0, 120, 120,120);
+       bigDeath[5] = bigDeathSheet.crop(120, 120, 120,120);
+       bigDeath[6] = bigDeathSheet.crop( 120*2, 120, 120,120);
+       bigDeath[7] = bigDeathSheet.crop( 120*3, 120, 120, 120);
+
 
        SpriteSheet brickSheet = new SpriteSheet(ImageLoader.loadImage("/textures/bricks.png"));
        brick = brickSheet.crop(0,0,WIDTH, HEIGHT);

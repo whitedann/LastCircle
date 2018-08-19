@@ -1,6 +1,7 @@
 package dan.Worlds;
 
 import dan.Entities.Creatures.Blob;
+import dan.Entities.Creatures.BlobType;
 import dan.Tile.Tile;
 import dan.Utils.Utils;
 import dan.game.Handler;
@@ -14,7 +15,7 @@ public class World {
     private int[][] tiles;
     private int[][] spawns;
     private int timer = 0;
-    private int spawnInterval = 300;
+    private int spawnInterval = 60;
     private int currentWave = 2;
 
     public World(Handler handler, String path, String spawnPatternFile){
@@ -49,7 +50,7 @@ public class World {
                 currentWave = 2;
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
-                    if (spawns[x][y] == currentWave) {
+                    if (spawns[x][y] == currentWave ) {
                         if(!handler.getWorldTracker().thisCellContainsEntiies(x,y))
                             handler.addCreature(new Blob(handler,getTileCenterXFromIndex(x),getTileCenterYFromIndex(y), 0));
                     }
