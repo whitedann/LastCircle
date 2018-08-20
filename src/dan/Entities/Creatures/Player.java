@@ -96,7 +96,7 @@ public class Player extends Creature {
         Graphics2D gd2 = (Graphics2D) g;
         gd2.drawImage(getCurrentAnimationFrame(), at, null);
         if(finishedFiring()) {
-            gd2.setColor(Color.YELLOW);
+            gd2.setColor(Color.CYAN);
             gd2.fill(laserRect);
         }
         drawRocketAnimation(gd2);

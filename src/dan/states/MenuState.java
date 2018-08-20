@@ -21,7 +21,7 @@ public class MenuState extends State{
         doneFading = false;
         slideCoordinate = 0;
         menuSelection = 0;
-        currentMode = 1;
+        currentMode = -1;
     }
 
     @Override
@@ -68,11 +68,11 @@ public class MenuState extends State{
                 if(switchingModes)
                     animateSlideRight(0,384, 400, g, Assets.controlsButton, Assets.surivalModeButton);
                 else
-                    g.drawImage(Assets.controlsButton, 384,400, null);
+                    g.drawImage(Assets.sequenceModeButton, 374,400, null);
                 break;
             case -1:
                 if(switchingModes)
-                    animateSlideRight(0, 384, 400, g, Assets.surivalModeButton, Assets.controlsButton);
+                    animateSlideRight(0, 384, 400, g, Assets.surivalModeButton, Assets.sequenceModeButton);
                 else
                     g.drawImage(Assets.surivalModeButton, 384, 400, null);
                 break;
@@ -114,12 +114,12 @@ public class MenuState extends State{
                 if (currentMode == -1)
                     g.drawImage(Assets.survivalModeButtonSelected, 384, 400, null);
                 else
-                    g.drawImage(Assets.controlButtonSelected, 384, 400, null);
+                    g.drawImage(Assets.sequenceModeButtonSelected, 374, 400, null);
             } else {
                 if (currentMode == -1)
                     g.drawImage(Assets.surivalModeButton, 384, 400, null);
                 else
-                    g.drawImage(Assets.controlsButton, 384, 400, null);
+                    g.drawImage(Assets.sequenceModeButton, 374, 400, null);
             }
         }
     }
@@ -128,12 +128,18 @@ public class MenuState extends State{
         if(menuSelection == 0) {
             Graphics2D g2d = (Graphics2D) g;
             AffineTransform at1 = new AffineTransform();
-            at1.translate(584,410);
+            if(currentMode == 1)
+                at1.translate(590, 410);
+            else
+                at1.translate(584,410);
             at1.scale(timer*0.01 + 0.5, 1);
             g2d.drawImage(Assets.menuArrow,at1, null);
             AffineTransform at = new AffineTransform();
             //this transform I found via trial and error, there is probably a better way to do this.
-            at.translate(430,441);
+            if(currentMode == 1)
+                at.translate(425,441);
+            else
+                at.translate(430,441);
             at.rotate(Math.PI);
             at.scale(timer*0.01+ 0.5,1);
             g2d.drawImage(Assets.menuArrow,at, null);
