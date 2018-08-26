@@ -1,5 +1,6 @@
 package dan.states;
 
+import dan.display.Assets;
 import dan.game.Handler;
 
 import java.awt.*;
@@ -18,9 +19,6 @@ public class ControlsState extends State {
 
     @Override
     public void render(Graphics g) {
-        g.setColor(Color.WHITE);
-        g.fillRect(0,0,handler.getWidth(),handler.getHeight());
-        g.setColor(Color.BLACK);
-        g.drawString("CONTROL SCREEN!!!", 300, 500);
+        g.drawImage(Assets.controlsScreen,0,0,null);
     }
 }

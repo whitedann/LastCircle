@@ -52,7 +52,7 @@ public class Contagion extends Creature{
         return false;
     }
 
-    private BufferedImage getCurrentAnimationFrame(){
+    public BufferedImage getCurrentAnimationFrame(){
         return contagionMove.getCurrentFrame();
     }
 }

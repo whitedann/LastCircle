@@ -12,7 +12,7 @@ public abstract class Entity {
     protected float x, y, angle;
     protected int width, height;
     protected Circle bounds;
-    protected boolean isAlive;
+    protected boolean phaseOff;
 
 
     public Entity(Handler handler, float x, float y, float angle, int width, int height){
@@ -22,7 +22,7 @@ public abstract class Entity {
         this.height = height;
         this.width = width;
         this.angle = angle;
-        this.isAlive = true;
+        this.phaseOff = true;
         this.bounds = new Circle(0,0,width/2);
     }
 
@@ -32,7 +32,7 @@ public abstract class Entity {
         for(int x = cellIndexX - 1; x <= cellIndexX + 1; x++) {
             for (int y = cellIndexY - 1; y <= cellIndexY + 1; y++) {
                 for (Entity e : handler.getWorldTracker().getEntitiesInThisCell(x, y)) {
-                    if (!collisionWithCircleEntity(e) || e == this)
+                    if (!collisionWithCircleEntity(e) || e == this || !this.phaseOff)
                         continue;
                     else
                         return true;
@@ -99,6 +99,7 @@ public abstract class Entity {
     public void setBounds(Circle s){
         this.bounds = s;
     }
+
     public boolean collisionWithCircleEntity(Entity entity){
         double r = Math.sqrt(
                 Math.pow(entity.getBounds().getCenterX() - bounds.getCenterX() , 2)

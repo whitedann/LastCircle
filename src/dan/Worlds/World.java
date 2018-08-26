@@ -1,5 +1,6 @@
 package dan.Worlds;
 
+import dan.Entities.Creatures.Arrow;
 import dan.Entities.Creatures.Blob;
 import dan.Entities.Creatures.BlobType;
 import dan.Tile.Tile;
@@ -27,6 +28,11 @@ public class World {
     public void tick(){
         timer++;
         spawnBlobEnemies();
+        if(timer == spawnInterval -1) {
+            //spawnArrowEnemiesDown();
+            spawnArrowEnemiesTopLeft();
+            //spawnArrowEnemiesBottomLeft();
+        }
     }
 
     public void render(Graphics g){
@@ -45,7 +51,7 @@ public class World {
     }
 
     public void spawnBlobEnemies(){
-        if(timer >= spawnInterval) {
+        if(timer % spawnInterval == 0) {
             BlobType currentType;
             if(currentWave > 9)
                 currentWave = 2;
@@ -64,7 +70,42 @@ public class World {
                 }
             }
             currentWave++;
-            timer = 0;
+        }
+    }
+
+    public void spawnArrowEnemiesTopLeft(){
+        for(int y = 1; y < 10; y++) {
+            if (!handler.getWorldTracker().thisCellContainsEntiies(2, y)) {
+                handler.addCreature(new Arrow(handler, getTileCenterXFromIndex(2), getTileCenterYFromIndex(y), 1));
+                handler.addCreature(new Arrow(handler, getTileCenterXFromIndex(2), getTileCenterYFromIndex(y) + 32, 1));
+            }
+        }
+    }
+
+    public void spawnArrowEnemiesTopRight(){
+        for(int y = 1; y < 10; y++) {
+            if (!handler.getWorldTracker().thisCellContainsEntiies(width - 2, y)) {
+                handler.addCreature(new Arrow(handler, getTileCenterXFromIndex(width - 3), getTileCenterYFromIndex(y), 2));
+                handler.addCreature(new Arrow(handler, getTileCenterXFromIndex(width - 3), getTileCenterYFromIndex(y) + 32, 2));
+            }
+        }
+    }
+
+    public void spawnArrowEnemiesBottomLeft(){
+        for(int y = 11; y < height - 2; y++){
+            if(!handler.getWorldTracker().thisCellContainsEntiies(2, y )) {
+                handler.addCreature(new Arrow(handler, getTileCenterXFromIndex(2), getTileCenterYFromIndex(y), 1));
+                handler.addCreature(new Arrow(handler, getTileCenterXFromIndex(2), getTileCenterYFromIndex(y) + 32, 1));
+            }
+        }
+    }
+
+    public void spawnArrowEnemiesDown(){
+        for(int x = 1; x < width - 2; x ++){
+            if(!handler.getWorldTracker().thisCellContainsEntiies(x, 2)){
+                handler.addCreature(new Arrow(handler, getTileCenterXFromIndex(x), getTileCenterYFromIndex(2), 3));
+                handler.addCreature(new Arrow(handler, getTileCenterXFromIndex(x) + 32, getTileCenterYFromIndex(2), 3));
+            }
         }
     }
 

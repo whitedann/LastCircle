@@ -18,7 +18,7 @@ public class WorldTracker {
 
     public void tick(){
         for (int i = 0; i < cellGrid.length; i++){
-            for (int j = 0; j < cellGrid[j].length; j++)
+            for (int j = 0; j < cellGrid[i].length; j++)
                 sortEntitiesIntoCells(i, j);
         }
     }
@@ -34,7 +34,7 @@ public class WorldTracker {
     public void reinitializeCellGrid(){
          cellGrid = new ArrayList[handler.getWorld().getWidth()][handler.getWorld().getHeight()];
          for(int i = 0; i < cellGrid.length; i++){
-             for(int j = 0; j < cellGrid[j].length; j++)
+             for(int j = 0; j < cellGrid[i].length; j++)
                  cellGrid[i][j] = new ArrayList<Entity>();
          }
     }

@@ -22,6 +22,7 @@ public class Blob extends Creature{
     private BlobType type;
     private Animation blobMove, blobHit, blobSpawning, deathAnimation;
 
+
     public Blob(Handler handler, float x, float y, float angle, BlobType type) {
         super(handler, x, y, angle,32,32);
         setTarget(handler.getPlayer());
@@ -48,7 +49,14 @@ public class Blob extends Creature{
             deathAnimation = new Animation(100, Assets.bigDeath);
             setSpeed(0.5f);
         }
-        blobMove.setCurrentFrameIndex(ThreadLocalRandom.current().nextInt(0, 5));
+        else if(this.type == ARROW){
+            blobMove =  new Animation(20, Assets.arrowMove);
+            blobSpawning = new Animation(50, Assets.blobSpawning);
+            blobHit = new Animation(50, Assets.blobDie);
+            deathAnimation = new Animation(100, Assets.blobDying);
+            setSpeed(1.5f);
+        }
+        blobMove.setCurrentFrameIndex(ThreadLocalRandom.current().nextInt(0, 3));
     }
 
     public void setTarget(Entity target){

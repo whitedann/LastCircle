@@ -1,5 +1,6 @@
 package dan.Entities.Creatures;
 
+import dan.Entities.Bullet;
 import dan.Entities.Entity;
 import dan.Tile.Tile;
 import dan.Utils.Utils;
@@ -7,6 +8,7 @@ import dan.game.Handler;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.awt.image.BufferedImage;
 
 public abstract class Creature extends Entity {
 
@@ -202,11 +204,29 @@ public abstract class Creature extends Entity {
 
      public abstract boolean finishedDying();
 
+     public abstract BufferedImage getCurrentAnimationFrame();
+
      public boolean hitByPlayer(){
         if(handler.getPlayer().finishedFiring()) {
             Ellipse2D hitbox = new Ellipse2D.Double(x - handler.getCamera().getxOffset() - this.bounds.getRadius(),
                     y - handler.getCamera().getyOffset() - this.bounds.getRadius(), bounds.getRadius()*2,bounds.getRadius()*2);
-            if (Utils.testIntersection(hitbox, handler.getPlayer().getLaserRect()))
+            for(Bullet e : this.handler.getPlayer().getBullets()) {
+                if (Utils.testIntersection(hitbox, e.getShape())) {
+                    System.out.println("hit");
+                    return true;
+                }
+                else
+                    return false;
+            }
+        }
+        return false;
+    }
+
+    public boolean hitByBullet(){
+        Ellipse2D hitbox = new Ellipse2D.Double(x - handler.getCamera().getxOffset() - this.bounds.getRadius(),
+                y - handler.getCamera().getyOffset() - this.bounds.getRadius(), bounds.getRadius()*2,bounds.getRadius()*2);
+        for(Bullet e : this.handler.getPlayer().getBullets()) {
+            if (Utils.testIntersection(hitbox, e.getShape()))
                 return true;
             else
                 return false;

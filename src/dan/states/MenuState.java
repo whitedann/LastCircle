@@ -48,6 +48,7 @@ public class MenuState extends State{
 
     @Override
     public void render(Graphics g) {
+        g.drawImage(Assets.start1, 256, 250, null);
         g.setColor(Color.WHITE);
         switchModeSelection(g);
         renderMenuNavigation(g);

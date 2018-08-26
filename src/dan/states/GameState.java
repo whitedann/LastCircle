@@ -1,5 +1,6 @@
 package dan.states;
 
+import dan.Entities.Bullet;
 import dan.Entities.Creatures.Creature;
 import dan.Entities.Creatures.Player;
 import dan.Entities.Entity;
@@ -20,7 +21,7 @@ public class GameState extends State{
 
     public GameState(Handler handler, int gameMode){
         super(handler);
-        this.world = new World(handler,"res/world/world1.txt", "res/world/SpawnPattern1.txt");
+        this.world = new World(handler,"res/world/world1.txt", "res/world/NoSpawns.txt");
         this.handler.setWorld(world);
         this.player = new Player(handler,500,500,0);
         this.handler.setPlayer(player);
@@ -41,6 +42,7 @@ public class GameState extends State{
             world.decreaseSpawnInterval();
         world.tick();
         removeDeadEnemies();
+        removeBullets();
         checkForEndGame();
         player.levelUp(score);
         if(!player.playerKilled)
@@ -100,6 +102,15 @@ public class GameState extends State{
                 iter.remove();
                 score += 5;
             }
+        }
+    }
+
+    public void removeBullets(){
+        Iterator<Bullet> iter = handler.getPlayer().getBullets().iterator();
+        while(iter.hasNext()){
+            Bullet bullet = iter.next();
+            if(bullet.insideSolidTile())
+                iter.remove();
         }
     }
 }

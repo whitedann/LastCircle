@@ -10,7 +10,7 @@ public class Assets {
     private static final int WIDTH = 64, HEIGHT = 64;
     public static BufferedImage turretE, brokenBrick, grid, border, start1, brick, controlsButton, exitButton,
       exitButtonSelected, controlButtonSelected, surivalModeButton, survivalModeButtonSelected, sequenceModeButton, sequenceModeButtonSelected,
-            menuArrow;
+            menuArrow, controlsScreen;
 
     public static BufferedImage[] turretFire;
     public static BufferedImage[] blobMove;
@@ -27,9 +27,10 @@ public class Assets {
     public static BufferedImage[] bigSpawn;
     public static BufferedImage[] bigHit;
     public static BufferedImage[] bigDeath;
+    public static BufferedImage[] arrowMove;
 
     public static void init(){
-       start1 = ImageLoader.loadImage("/textures/start1.png");
+       start1 = ImageLoader.loadImage("/textures/titleImage.png");
        controlsButton = ImageLoader.loadImage("/textures/controlsButton.png");
        exitButton = ImageLoader.loadImage("/textures/exitButton.png");
        exitButtonSelected = ImageLoader.loadImage("/textures/exitButtonSelected.png");
@@ -39,23 +40,24 @@ public class Assets {
        sequenceModeButton = ImageLoader.loadImage("/textures/sequenceButton.png");
        sequenceModeButtonSelected = ImageLoader.loadImage("/textures/sequenceButtonSelected.png");
        menuArrow =  ImageLoader.loadImage("/textures/menuArrow.png");
+       controlsScreen = ImageLoader.loadImage("/textures/controlsScreen.png");
 
-       SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/textures/turret.png"));
+       SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/textures/turret2.png"));
 
        turretFire = new BufferedImage[8];
        turretFire[0] = sheet.crop(0,0, WIDTH, HEIGHT);
-       turretFire[1] = sheet.crop(WIDTH,0, WIDTH, HEIGHT);
-       turretFire[2] = sheet.crop(WIDTH*2,0, WIDTH, HEIGHT);
-       turretFire[3] = sheet.crop(WIDTH * 3,0, WIDTH, HEIGHT);
-       turretFire[4] = sheet.crop(0,HEIGHT, WIDTH, HEIGHT);
-       turretFire[5] = sheet.crop(WIDTH ,HEIGHT, WIDTH, HEIGHT);
-       turretFire[6] = sheet.crop(WIDTH * 2,HEIGHT, WIDTH, HEIGHT);
-       turretFire[7] = sheet.crop(WIDTH* 3,HEIGHT, WIDTH, HEIGHT);
+       turretFire[1] = sheet.crop(0,0, WIDTH, HEIGHT);
+       turretFire[2] = sheet.crop(0,0, WIDTH, HEIGHT);
+       turretFire[3] = sheet.crop(0,0, WIDTH, HEIGHT);
+       turretFire[4] = sheet.crop(0,0, WIDTH, HEIGHT);
+       turretFire[5] = sheet.crop(0 ,0, WIDTH, HEIGHT);
+       turretFire[6] = sheet.crop(0,0, WIDTH, HEIGHT);
+       turretFire[7] = sheet.crop(0,0, WIDTH, HEIGHT);
        turretE = sheet.crop(0,0,WIDTH, HEIGHT);
 
        SpriteSheet blobSheet = new SpriteSheet(ImageLoader.loadImage("/textures/enemies.png"));
 
-       blobMove = new BufferedImage[11];
+       blobMove = new BufferedImage[10];
        blobMove[0] =  blobSheet.crop(0, 0, WIDTH/2, HEIGHT/2);
        blobMove[1] = blobSheet.crop(WIDTH/2, 0, WIDTH/2, HEIGHT/2);
        blobMove[2] = blobSheet.crop(WIDTH, 0, WIDTH/2, HEIGHT/2);
@@ -66,7 +68,13 @@ public class Assets {
        blobMove[7] = blobSheet.crop((7/2)*WIDTH, 0, WIDTH/2, HEIGHT/2);
        blobMove[8] = blobSheet.crop(0,HEIGHT/2, WIDTH/2, HEIGHT/2);
        blobMove[9] = blobSheet.crop(WIDTH/2,HEIGHT/2, WIDTH/2, HEIGHT/2);
-       blobMove[10] = blobSheet.crop(WIDTH, HEIGHT/2, WIDTH/2, HEIGHT/2);
+
+       SpriteSheet arrowSheet = new SpriteSheet(ImageLoader.loadImage("/textures/arrowMove.png"));
+       arrowMove = new BufferedImage[4];
+       arrowMove[0] = arrowSheet.crop(0,0,32, 32);
+       arrowMove[1] = arrowSheet.crop(32,0,32, 32);
+       arrowMove[2] = arrowSheet.crop(2*32,0,32, 32);
+       arrowMove[3] = arrowSheet.crop(3*32,0,32, 32);
 
        SpriteSheet playerDieSheet = new SpriteSheet(ImageLoader.loadImage("/textures/turretExplosion.png"));
 
@@ -113,10 +121,10 @@ public class Assets {
 
        SpriteSheet rocketSheet = new SpriteSheet(ImageLoader.loadImage("/textures/rocketAnimations.png"));
        animateRocket = new BufferedImage[4];
-       animateRocket[0] = rocketSheet.crop(0,0,96,96);
-       animateRocket[1] = rocketSheet.crop(96,0,96,96);
-       animateRocket[2] = rocketSheet.crop(2*96,0,96,96);
-       animateRocket[3] = rocketSheet.crop(3*96,0,96,96);
+       animateRocket[0] = rocketSheet.crop(0,96,96,96);
+       animateRocket[1] = rocketSheet.crop(96,96,96,96);
+       animateRocket[2] = rocketSheet.crop(96*2,96,96,96);
+       animateRocket[3] = rocketSheet.crop(96*3,96,96,96);
 
        SpriteSheet contagionSheet = new SpriteSheet(ImageLoader.loadImage("/textures/contagion.png"));
        contagionMove = new BufferedImage[12];
@@ -134,7 +142,7 @@ public class Assets {
        contagionMove[11] = contagionSheet.crop(24,16,8,8);
 
        SpriteSheet greenBlobSheet = new SpriteSheet(ImageLoader.loadImage("/textures/greenBlob.png"));
-       greenBlobMove = new BufferedImage[11];
+       greenBlobMove = new BufferedImage[10];
        greenBlobMove[0] =  greenBlobSheet.crop(0, 0, WIDTH/2, HEIGHT/2);
        greenBlobMove[1] = greenBlobSheet.crop(WIDTH/2, 0, WIDTH/2, HEIGHT/2);
        greenBlobMove[2] = greenBlobSheet.crop(WIDTH, 0, WIDTH/2, HEIGHT/2);
@@ -145,7 +153,6 @@ public class Assets {
        greenBlobMove[7] = greenBlobSheet.crop((7/2)*WIDTH, 0, WIDTH/2, HEIGHT/2);
        greenBlobMove[8] = greenBlobSheet.crop(0,HEIGHT/2, WIDTH/2, HEIGHT/2);
        greenBlobMove[9] = greenBlobSheet.crop(WIDTH/2,HEIGHT/2, WIDTH/2, HEIGHT/2);
-       greenBlobMove[10] = greenBlobSheet.crop(WIDTH, HEIGHT/2, WIDTH/2, HEIGHT/2);
 
        SpriteSheet redBlobSheet = new SpriteSheet(ImageLoader.loadImage("/textures/redBlob.png"));
        redBlobMove = new BufferedImage[11];

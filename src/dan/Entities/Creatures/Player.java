@@ -1,14 +1,15 @@
 package dan.Entities.Creatures;
 
+import dan.Entities.Bullet;
 import dan.display.Animation;
 import dan.display.Assets;
 import dan.game.Handler;
-import org.w3c.dom.css.Rect;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Player extends Creature {
 
@@ -17,6 +18,7 @@ public class Player extends Creature {
     public boolean playerKilled;
     private Shape laserRect;
     private int beamWidth = 1;
+    private ArrayList<Bullet> bullets;
 
     public Player(Handler handler, float x, float y, float angle) {
         super(handler, x, y, angle, Creature.DEFAULT_CREATURE_WIDTH,Creature.DEFAULT_CREATURE_HEIGHT);
@@ -32,15 +34,24 @@ public class Player extends Creature {
 
         //Set up dummy laser shape
         laserRect = new Rectangle(0,0,1,1);
+
+        bullets = new ArrayList<>();
     }
 
     @Override
     public void tick() {
         getInput();
-        if(finishedFiring())
-            laserRect = placeBeamProjectile();
+        if(finishedFiring()) {
+            //laserRect = placeBeamProjectile();
+            bullets.add(new Bullet(handler, (int) (x - handler.getCamera().getxOffset()),
+                    (int)(y - handler.getCamera().getyOffset()), angle));
+        }
         else
             laserRect = new Rectangle(0, 0, 1, 1);
+        for(Bullet e : this.bullets) {
+            if (!e.insideSolidTile())
+                e.tick();
+        }
         move();
         handler.getCamera().centerOnEntity(this);
         if(entityEntityCollision()) {
@@ -95,19 +106,27 @@ public class Player extends Creature {
 
         Graphics2D gd2 = (Graphics2D) g;
         gd2.drawImage(getCurrentAnimationFrame(), at, null);
+        /*
         if(finishedFiring()) {
             gd2.setColor(Color.CYAN);
             gd2.fill(laserRect);
         }
+        */
+        gd2.setColor(Color.CYAN);
+        for(Bullet e: this.bullets)
+            e.render(g);
         drawRocketAnimation(gd2);
     }
 
     public Shape placeBeamProjectile(){
         //generates a beam from the tip of the character sprite out the given distance and rotates it according
         //to the player's orientation.
+        int distance = getDistanceToNearestEntity();
+        if(distance >= 200)
+            distance = 200;
         Double anchorX = Double.valueOf(x - handler.getCamera().getxOffset());
-        Double anchorY = Double.valueOf(y - handler.getCamera().getyOffset() - 1);
-        Rectangle2D rect = new Rectangle2D.Double(anchorX + 31,  anchorY, getDistanceToNearestEntity(), beamWidth);
+        Double anchorY = Double.valueOf(y - handler.getCamera().getyOffset());
+        Rectangle2D rect = new Rectangle2D.Double(anchorX,  anchorY, distance, beamWidth + 2);
         AffineTransform at = AffineTransform.getRotateInstance(angle,anchorX, anchorY);
         Shape rotatedRect = at.createTransformedShape(rect);
         return rotatedRect;
@@ -118,11 +137,15 @@ public class Player extends Creature {
     }
 
     public boolean finishedFiring(){
-        if(playerFire.getCurrentFrameIndex() == 7 || playerFire.getCurrentFrameIndex() == 6 || playerFire.getCurrentFrameIndex() == 5 ||
-                playerFire.getCurrentFrameIndex() == 4)
+        if(handler.getKeyManager().fire)
+            return true;
+        else return false;
+        /*
+        if(playerFire.getCurrentFrameIndex() == 7)
             return true;
         else
             return false;
+            */
     }
 
     public boolean finishedDying(){
@@ -175,7 +198,7 @@ public class Player extends Creature {
         g.drawImage(animateRocket.getCurrentFrame(), at, null);
     }
 
-    private BufferedImage getCurrentAnimationFrame() {
+    public BufferedImage getCurrentAnimationFrame() {
         if(playerKilled) {
             if(playerDie.getCurrentFrameIndex() == 10)
                 return Assets.playerDie[10];
@@ -192,6 +215,17 @@ public class Player extends Creature {
             playerFire.setCurrentFrameIndex(0);
             return Assets.turretE;
         }
+    }
+
+    /*
+    public void removeBullets(){
+        for(Bullet e : this.bullets){
+            if(e.getShape().)
+        }
+    }
+   */
+    public ArrayList<Bullet> getBullets(){
+        return this.bullets;
     }
 }
 
