@@ -21,7 +21,7 @@ public class GameState extends State{
 
     public GameState(Handler handler, int gameMode){
         super(handler);
-        this.world = new World(handler,"res/world/world1.txt", "res/world/NoSpawns.txt");
+        this.world = new World(handler,"res/world/world1.txt", "res/world/SpawnPattern1.txt");
         this.handler.setWorld(world);
         this.player = new Player(handler,500,500,0);
         this.handler.setPlayer(player);
@@ -36,13 +36,13 @@ public class GameState extends State{
         worldTracker.reinitializeCellGrid();
         worldTracker.tick();
         player.tick();
+        removeBullets();
         for(Creature e : this.handler.getCreatures())
             e.tick();
+        removeDeadEnemies();
         if(time % 1200 == 0)
             world.decreaseSpawnInterval();
         world.tick();
-        removeDeadEnemies();
-        removeBullets();
         checkForEndGame();
         player.levelUp(score);
         if(!player.playerKilled)

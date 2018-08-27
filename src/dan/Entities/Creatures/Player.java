@@ -19,6 +19,7 @@ public class Player extends Creature {
     private Shape laserRect;
     private int beamWidth = 1;
     private ArrayList<Bullet> bullets;
+    private int fireSpeed, fireTimer;
 
     public Player(Handler handler, float x, float y, float angle) {
         super(handler, x, y, angle, Creature.DEFAULT_CREATURE_WIDTH,Creature.DEFAULT_CREATURE_HEIGHT);
@@ -26,31 +27,30 @@ public class Player extends Creature {
         //Starting player stats
         this.setSpeed(2.0f);
         this.setRotationalSpeed(0.05f);
+        fireSpeed = 1;
 
         //Player animations
         playerFire = new Animation(100, Assets.turretFire);
         playerDie = new Animation(50, Assets.playerDie);
         animateRocket = new Animation(50, Assets.animateRocket);
 
-        //Set up dummy laser shape
-        laserRect = new Rectangle(0,0,1,1);
-
+        fireTimer = 9;
         bullets = new ArrayList<>();
     }
 
     @Override
     public void tick() {
         getInput();
-        if(finishedFiring()) {
+        if(handler.getKeyManager().fire)
+            fireTimer++;
+        if(fireTimer == 10) {
             //laserRect = placeBeamProjectile();
             bullets.add(new Bullet(handler, (int) (x - handler.getCamera().getxOffset()),
                     (int)(y - handler.getCamera().getyOffset()), angle));
+            fireTimer = 0;
         }
-        else
-            laserRect = new Rectangle(0, 0, 1, 1);
         for(Bullet e : this.bullets) {
-            if (!e.insideSolidTile())
-                e.tick();
+            e.tick();
         }
         move();
         handler.getCamera().centerOnEntity(this);
@@ -137,15 +137,10 @@ public class Player extends Creature {
     }
 
     public boolean finishedFiring(){
-        if(handler.getKeyManager().fire)
-            return true;
-        else return false;
-        /*
         if(playerFire.getCurrentFrameIndex() == 7)
             return true;
         else
             return false;
-            */
     }
 
     public boolean finishedDying(){
@@ -217,13 +212,6 @@ public class Player extends Creature {
         }
     }
 
-    /*
-    public void removeBullets(){
-        for(Bullet e : this.bullets){
-            if(e.getShape().)
-        }
-    }
-   */
     public ArrayList<Bullet> getBullets(){
         return this.bullets;
     }

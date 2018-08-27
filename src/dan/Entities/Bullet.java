@@ -21,14 +21,12 @@ public class Bullet {
         this.handler = handler;
         this.x = startingX;
         this.y = startingY;
-        AffineTransform at = AffineTransform.getRotateInstance(angle, startingX, startingY);
-        shape = at.createTransformedShape(new Rectangle2D.Double(startingX, startingY, 20, 3));
     }
 
     public void tick(){
         anchorX += (10*Math.cos(angle) - handler.getPlayer().getxMove());
         anchorY += (10*Math.sin(angle) - handler.getPlayer().getyMove());
-        shape = new Rectangle2D.Double(anchorX + 30, anchorY, 7, 3);
+        shape = new Rectangle2D.Double(anchorX + 30, anchorY, 20, 4);
         AffineTransform at = AffineTransform.getRotateInstance(angle, anchorX, anchorY);
         shape = at.createTransformedShape(shape);
     }

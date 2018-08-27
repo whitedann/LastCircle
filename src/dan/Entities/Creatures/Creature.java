@@ -7,8 +7,10 @@ import dan.Utils.Utils;
 import dan.game.Handler;
 
 import java.awt.*;
+import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
+import java.util.Iterator;
 
 public abstract class Creature extends Entity {
 
@@ -225,11 +227,15 @@ public abstract class Creature extends Entity {
     public boolean hitByBullet(){
         Ellipse2D hitbox = new Ellipse2D.Double(x - handler.getCamera().getxOffset() - this.bounds.getRadius(),
                 y - handler.getCamera().getyOffset() - this.bounds.getRadius(), bounds.getRadius()*2,bounds.getRadius()*2);
-        for(Bullet e : this.handler.getPlayer().getBullets()) {
-            if (Utils.testIntersection(hitbox, e.getShape()))
+        Iterator<Bullet> iter = handler.getPlayer().getBullets().iterator();
+        Area bulletArea = new Area();
+        while(iter.hasNext()) {
+            Bullet e = iter.next();
+            Area singleBullet = new Area(e.getShape());
+            if(Utils.testIntersection(singleBullet, hitbox))
                 return true;
             else
-                return false;
+                continue;
         }
         return false;
     }

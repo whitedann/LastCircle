@@ -72,7 +72,7 @@ public class Blob extends Creature{
                 }
                 else
                     this.bounds = new Circle(x, y, 16);
-                if (hitByPlayer()) {
+                if (hitByBullet()) {
                     //TODO reset bounds when hit
                     timesHit += 1;
                     blobHit.tick();
@@ -157,7 +157,7 @@ public class Blob extends Creature{
         if(!isSpawned()){
             return blobSpawning.getCurrentFrame();
         }
-        else if(hitByPlayer()) {
+        else if(hitByBullet()) {
             return blobHit.getCurrentFrame();
         }
         else if(isDead()){
