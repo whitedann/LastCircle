@@ -16,7 +16,7 @@ public class World {
     private int[][] tiles;
     private int[][] spawns;
     private int timer = 0;
-    private int spawnInterval = 300;
+    private int spawnInterval = 100;
     private int currentWave = 2;
 
     public World(Handler handler, String path, String spawnPatternFile){

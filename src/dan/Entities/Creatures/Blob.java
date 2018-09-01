@@ -132,13 +132,13 @@ public class Blob extends Creature{
 
     public boolean isDead(){
         if(type == BIG) {
-            if (timesHit > 50)
+            if (timesHit > 10)
                 return true;
             else
                 return false;
         }
         else{
-            if(timesHit > 1)
+            if(timesHit > 0)
                 return true;
             else
                 return false;

@@ -30,11 +30,11 @@ public class Player extends Creature {
         fireSpeed = 1;
 
         //Player animations
-        playerFire = new Animation(100, Assets.turretFire);
+        playerFire = new Animation(10, Assets.turretFire);
         playerDie = new Animation(50, Assets.playerDie);
         animateRocket = new Animation(50, Assets.animateRocket);
 
-        fireTimer = 9;
+        fireTimer = 0;
         bullets = new ArrayList<>();
     }
 
@@ -43,7 +43,7 @@ public class Player extends Creature {
         getInput();
         if(handler.getKeyManager().fire)
             fireTimer++;
-        if(fireTimer == 10) {
+        if(fireTimer == 1) {
             //laserRect = placeBeamProjectile();
             bullets.add(new Bullet(handler, (int) (x - handler.getCamera().getxOffset()),
                     (int)(y - handler.getCamera().getyOffset()), angle));

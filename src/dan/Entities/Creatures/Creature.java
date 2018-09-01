@@ -232,8 +232,10 @@ public abstract class Creature extends Entity {
         while(iter.hasNext()) {
             Bullet e = iter.next();
             Area singleBullet = new Area(e.getShape());
-            if(Utils.testIntersection(singleBullet, hitbox))
+            if(Utils.testIntersection(singleBullet, hitbox)) {
+                iter.remove();
                 return true;
+            }
             else
                 continue;
         }

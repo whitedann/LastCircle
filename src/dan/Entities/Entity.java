@@ -3,6 +3,7 @@ package dan.Entities;
 import dan.Tile.Tile;
 import dan.game.Handler;
 import javafx.scene.shape.Circle;
+
 import java.awt.*;
 
 public abstract class Entity {
