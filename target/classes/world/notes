@@ -1,0 +1,34 @@
+TO BUILD A NEW WORLD FILE:
+
+The first line is two numbers consisting of the height and width of the map.
+The second line is two numbers consisting of the starting tile index of the player
+Then, create a grid i by j numbers in dimension. A "1" corresponds to a floor tile,
+and a "0" corresponds to a brick (wall) tile. "world1.txt" is a basic example of this,
+with all floor tiles surrounded by a boundary of wall tiles.
+
+TO BUILD A NEW SPAWN PATTERN:
+
+The dimensions of the spawn pattern must be the same as the world it is designed for.
+
+
+TODO 8.10.18
+Draw Title Screen Assets:
+Title, Start Game, How to Play, Select Game Mode, Survival, Campaign, Credits
+
+Draw better death animation for Blob (use different colors)
+
+Make game freeze when player dies. (No movement, firing, scoring, time ticking, etc)
+
+Add things to pause screen such as quit, controls, etc.
+
+Add Campaign and survival modes
+
+Add more worlds+ spawns
+
+FIX COLLISION WITH TILES FOR CHRISTSSAKES
+
+Change level-up functuonality (maybe make it so that levels come from floating power ups? an idea..)
+
+ToDraw:
+
+Controls screen, spawn animations, spawn animations. Title screen text.
